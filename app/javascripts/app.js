@@ -7,21 +7,6 @@ function setStatus(message) {
   status.innerHTML = message;
 };
 
-//更新余额
-/*
-function refreshBalance() {
-  var contractAddr = Score.deployed();
-
-  contractAddr.getScoreWithCustomerAddr.call(account, {from: account}).then(function(value) {
-    var balance_element = document.getElementById("balance");
-    balance_element.innerHTML = value.valueOf();
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("获取积分失败");
-  });
-};
-*/
-
 //发行积分给客户
 function sendScoreToCustomer() {
   var contractAddr = Score.deployed();
