@@ -23,7 +23,7 @@ function refreshBalance() {
 function sendScore() {
   var contractAddr = Score.deployed();
 
-  var amount = parseInt(document.getElementById("amount").value);
+  var amount = parseInt(document.getElementById("amount").value); //转化为int值
   var receiver = document.getElementById("receiver").value;
 
   setStatus("初始化交易，请等待...");
@@ -41,8 +41,8 @@ function getScore() {
   var contractAddr = Score.deployed();
   var finder = document.getElementById("findAccount").value;
   contractAddr.getBalance.call(finder, {from: account}).then(function(value) {
-    var balance_element2 = document.getElementById("balance2");
-    balance_element2.innerHTML = value.valueOf();
+    var balance_element = document.getElementById("balance2");
+    balance_element.innerHTML = value.valueOf();
   }).catch(function(e) {
     console.log(e);
     setStatus("获取积分失败");
