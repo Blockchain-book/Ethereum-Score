@@ -353,33 +353,11 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "receiver",
-            "type": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "sendScore",
-        "outputs": [
-          {
-            "name": "sufficient",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
             "name": "addr",
             "type": "address"
           }
         ],
-        "name": "getBalance",
+        "name": "getScoreWithCustomerAddr",
         "outputs": [
           {
             "name": "",
@@ -390,15 +368,37 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "function"
       },
       {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "receiver",
+            "type": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "sendScoreToCustomer",
+        "outputs": [
+          {
+            "name": "sufficient",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
         "inputs": [],
         "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x6060604052600160a060020a0333166000908152602081905260409020612710905560d58061002e6000396000f3606060405260e060020a6000350463036bb70a81146026578063f8b2cb4f146059575b6002565b34600257608a600435602435600160a060020a03331660009081526020819052604081205482901015609e5750600060cf565b34600257600160a060020a036004351660009081526020819052604090205460408051918252519081900360200190f35b604080519115158252519081900360200190f35b50600160a060020a033381166000908152602081905260408082208054859003905591841681522080548201905560015b9291505056",
+    "unlinked_binary": "0x6060604052600080546c0100000000000000000000000033810204600160a060020a031990911617905560ae8060356000396000f3606060405260e060020a600035046336eed01f81146026578063aecf2149146064575b6002565b3460025773ffffffffffffffffffffffffffffffffffffffff6004351660009081526001602052604090205460408051918252519081900360200190f35b3460025773ffffffffffffffffffffffffffffffffffffffff6004351660009081526001602081905260409091208054602435019055604080519115158252519081900360200190f3",
     "events": {},
-    "updated_at": 1481682098080,
+    "updated_at": 1481693725944,
     "links": {},
-    "address": "0x3fbf06800c32775217059fcf1d523d1fdedce2fd"
+    "address": "0x38e6594418aa31e24759943f5a69e20299b3e517"
   }
 };
 

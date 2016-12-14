@@ -5698,7 +5698,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052603d8060106000396000f36504044633f3de50606060405260e060020a600035046396e4ee3d81146024575b6007565b6024356004350260408051918252519081900360200190f3",
     "events": {},
-    "updated_at": 1481682098069,
+    "updated_at": 1481693631756,
     "links": {},
     "address": "0x7e58f226e41f9330afe19c36bc64be5163b6ce90"
   }
@@ -6251,7 +6251,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1481682098076,
+    "updated_at": 1481693631762,
     "links": {
       "ConvertLib": "0x7e58f226e41f9330afe19c36bc64be5163b6ce90"
     },
@@ -6795,7 +6795,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052600080546c0100000000000000000000000033810204600160a060020a0319909116179055610138806100376000396000f3606060405260e060020a60003504630900f010811461003f578063445df0ac146100b85780638da5cb5b146100c6578063fdacd576146100dd575b610002565b34610002576101086004356000805433600160a060020a03908116911614156100b45781905080600160a060020a031663fdacd5766001600050546040518260e060020a02815260040180828152602001915050600060405180830381600087803b156100025760325a03f115610002575050505b5050565b346100025761010a60015481565b346100025761011c600054600160a060020a031681565b346100025761010860043560005433600160a060020a03908116911614156101055760018190555b50565b005b60408051918252519081900360200190f35b60408051600160a060020a039092168252519081900360200190f3",
     "events": {},
-    "updated_at": 1481682098086,
+    "updated_at": 1481693631767,
     "address": "0xdab9ad99670acde71d9ca257f01afeec35fcd5dd",
     "links": {}
   }
@@ -7282,33 +7282,11 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "constant": false,
         "inputs": [
           {
-            "name": "receiver",
-            "type": "address"
-          },
-          {
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "name": "sendScore",
-        "outputs": [
-          {
-            "name": "sufficient",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
             "name": "addr",
             "type": "address"
           }
         ],
-        "name": "getBalance",
+        "name": "getScoreWithCustomerAddr",
         "outputs": [
           {
             "name": "",
@@ -7319,15 +7297,37 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "function"
       },
       {
+        "constant": false,
+        "inputs": [
+          {
+            "name": "receiver",
+            "type": "address"
+          },
+          {
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "name": "sendScoreToCustomer",
+        "outputs": [
+          {
+            "name": "sufficient",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
         "inputs": [],
         "type": "constructor"
       }
     ],
-    "unlinked_binary": "0x6060604052600160a060020a0333166000908152602081905260409020612710905560d58061002e6000396000f3606060405260e060020a6000350463036bb70a81146026578063f8b2cb4f146059575b6002565b34600257608a600435602435600160a060020a03331660009081526020819052604081205482901015609e5750600060cf565b34600257600160a060020a036004351660009081526020819052604090205460408051918252519081900360200190f35b604080519115158252519081900360200190f35b50600160a060020a033381166000908152602081905260408082208054859003905591841681522080548201905560015b9291505056",
+    "unlinked_binary": "0x6060604052600080546c0100000000000000000000000033810204600160a060020a031990911617905560ae8060356000396000f3606060405260e060020a600035046336eed01f81146026578063aecf2149146064575b6002565b3460025773ffffffffffffffffffffffffffffffffffffffff6004351660009081526001602052604090205460408051918252519081900360200190f35b3460025773ffffffffffffffffffffffffffffffffffffffff6004351660009081526001602081905260409091208054602435019055604080519115158252519081900360200190f3",
     "events": {},
-    "updated_at": 1481682098080,
+    "updated_at": 1481693725944,
     "links": {},
-    "address": "0x3fbf06800c32775217059fcf1d523d1fdedce2fd"
+    "address": "0x38e6594418aa31e24759943f5a69e20299b3e517"
   }
 };
 
@@ -44460,8 +44460,8 @@ module.exports = transfer;
 },{"crypto":58}],224:[function(require,module,exports){
 module.exports = {
   "ConvertLib": require("/Users/chenyufeng/Desktop/Score/build/contracts/ConvertLib.sol.js"),
-  "Migrations": require("/Users/chenyufeng/Desktop/Score/build/contracts/Migrations.sol.js"),
   "MetaCoin": require("/Users/chenyufeng/Desktop/Score/build/contracts/MetaCoin.sol.js"),
+  "Migrations": require("/Users/chenyufeng/Desktop/Score/build/contracts/Migrations.sol.js"),
   "Score": require("/Users/chenyufeng/Desktop/Score/build/contracts/Score.sol.js"),
 };
 },{"/Users/chenyufeng/Desktop/Score/build/contracts/ConvertLib.sol.js":1,"/Users/chenyufeng/Desktop/Score/build/contracts/MetaCoin.sol.js":2,"/Users/chenyufeng/Desktop/Score/build/contracts/Migrations.sol.js":3,"/Users/chenyufeng/Desktop/Score/build/contracts/Score.sol.js":4}]},{},[224])(224)
@@ -44519,10 +44519,11 @@ function setStatus(message) {
 };
 
 //更新余额
+/*
 function refreshBalance() {
   var contractAddr = Score.deployed();
 
-  contractAddr.getBalance.call(account, {from: account}).then(function(value) {
+  contractAddr.getScoreWithCustomerAddr.call(account, {from: account}).then(function(value) {
     var balance_element = document.getElementById("balance");
     balance_element.innerHTML = value.valueOf();
   }).catch(function(e) {
@@ -44530,33 +44531,37 @@ function refreshBalance() {
     setStatus("获取积分失败");
   });
 };
+*/
 
-function sendScore() {
+//发行积分给客户
+function sendScoreToCustomer() {
   var contractAddr = Score.deployed();
 
   var amount = parseInt(document.getElementById("amount").value); //转化为int值
   var receiver = document.getElementById("receiver").value;
 
-  setStatus("初始化交易，请等待...");
+  setStatus("交易确认中，请稍候...");
 
-  contractAddr.sendScore(receiver, amount, {from: account}).then(function() {
-    setStatus("交易完成！");
-    refreshBalance();
+  contractAddr.sendScoreToCustomer(receiver, amount, {from: account}).then(function() {
+    setStatus("发行积分完成！");
+    //refreshBalance();
   }).catch(function(e) {
     console.log(e);
-    setStatus("发送积分失败");
+    setStatus("发行积分失败！");
   });
 };
 
-function getScore() {
+//根据客户address获取积分余额
+function getScoreWithCustomerAddr() {
   var contractAddr = Score.deployed();
-  var finder = document.getElementById("findAccount").value;
-  contractAddr.getBalance.call(finder, {from: account}).then(function(value) {
-    var balance_element = document.getElementById("balance2");
+  var customerAddr = document.getElementById("customerAddr").value;
+  contractAddr.getScoreWithCustomerAddr.call(customerAddr, {from: account}).then(function(value) {
+    var balance_element = document.getElementById("score");
     balance_element.innerHTML = value.valueOf();
+    setStatus("查询积分完成！");
   }).catch(function(e) {
     console.log(e);
-    setStatus("获取积分失败");
+    setStatus("查询积分失败！");
   });
 
 }

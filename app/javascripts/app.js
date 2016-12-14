@@ -8,10 +8,11 @@ function setStatus(message) {
 };
 
 //更新余额
+/*
 function refreshBalance() {
   var contractAddr = Score.deployed();
 
-  contractAddr.getBalance.call(account, {from: account}).then(function(value) {
+  contractAddr.getScoreWithCustomerAddr.call(account, {from: account}).then(function(value) {
     var balance_element = document.getElementById("balance");
     balance_element.innerHTML = value.valueOf();
   }).catch(function(e) {
@@ -19,33 +20,37 @@ function refreshBalance() {
     setStatus("获取积分失败");
   });
 };
+*/
 
-function sendScore() {
+//发行积分给客户
+function sendScoreToCustomer() {
   var contractAddr = Score.deployed();
 
   var amount = parseInt(document.getElementById("amount").value); //转化为int值
   var receiver = document.getElementById("receiver").value;
 
-  setStatus("初始化交易，请等待...");
+  setStatus("交易确认中，请稍候...");
 
-  contractAddr.sendScore(receiver, amount, {from: account}).then(function() {
-    setStatus("交易完成！");
-    refreshBalance();
+  contractAddr.sendScoreToCustomer(receiver, amount, {from: account}).then(function() {
+    setStatus("发行积分完成！");
+    //refreshBalance();
   }).catch(function(e) {
     console.log(e);
-    setStatus("发送积分失败");
+    setStatus("发行积分失败！");
   });
 };
 
-function getScore() {
+//根据客户address获取积分余额
+function getScoreWithCustomerAddr() {
   var contractAddr = Score.deployed();
-  var finder = document.getElementById("findAccount").value;
-  contractAddr.getBalance.call(finder, {from: account}).then(function(value) {
-    var balance_element = document.getElementById("balance2");
+  var customerAddr = document.getElementById("customerAddr").value;
+  contractAddr.getScoreWithCustomerAddr.call(customerAddr, {from: account}).then(function(value) {
+    var balance_element = document.getElementById("score");
     balance_element.innerHTML = value.valueOf();
+    setStatus("查询积分完成！");
   }).catch(function(e) {
     console.log(e);
-    setStatus("获取积分失败");
+    setStatus("查询积分失败！");
   });
 
 }
