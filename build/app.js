@@ -5698,7 +5698,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052603d8060106000396000f36504044633f3de50606060405260e060020a600035046396e4ee3d81146024575b6007565b6024356004350260408051918252519081900360200190f3",
     "events": {},
-    "updated_at": 1481681379854,
+    "updated_at": 1481682098069,
     "links": {},
     "address": "0x7e58f226e41f9330afe19c36bc64be5163b6ce90"
   }
@@ -6251,7 +6251,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1481681379858,
+    "updated_at": 1481682098076,
     "links": {
       "ConvertLib": "0x7e58f226e41f9330afe19c36bc64be5163b6ce90"
     },
@@ -6795,7 +6795,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052600080546c0100000000000000000000000033810204600160a060020a0319909116179055610138806100376000396000f3606060405260e060020a60003504630900f010811461003f578063445df0ac146100b85780638da5cb5b146100c6578063fdacd576146100dd575b610002565b34610002576101086004356000805433600160a060020a03908116911614156100b45781905080600160a060020a031663fdacd5766001600050546040518260e060020a02815260040180828152602001915050600060405180830381600087803b156100025760325a03f115610002575050505b5050565b346100025761010a60015481565b346100025761011c600054600160a060020a031681565b346100025761010860043560005433600160a060020a03908116911614156101055760018190555b50565b005b60408051918252519081900360200190f35b60408051600160a060020a039092168252519081900360200190f3",
     "events": {},
-    "updated_at": 1481681379863,
+    "updated_at": 1481682098086,
     "address": "0xdab9ad99670acde71d9ca257f01afeec35fcd5dd",
     "links": {}
   }
@@ -7325,9 +7325,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052600160a060020a0333166000908152602081905260409020612710905560d58061002e6000396000f3606060405260e060020a6000350463036bb70a81146026578063f8b2cb4f146059575b6002565b34600257608a600435602435600160a060020a03331660009081526020819052604081205482901015609e5750600060cf565b34600257600160a060020a036004351660009081526020819052604090205460408051918252519081900360200190f35b604080519115158252519081900360200190f35b50600160a060020a033381166000908152602081905260408082208054859003905591841681522080548201905560015b9291505056",
     "events": {},
-    "updated_at": 1481681379865,
+    "updated_at": 1481682098080,
     "links": {},
-    "address": "0x73e330ca7d41f4147e40d2ee63a8a852e2b5d5c5"
+    "address": "0x3fbf06800c32775217059fcf1d523d1fdedce2fd"
   }
 };
 
@@ -44512,49 +44512,51 @@ window.addEventListener('load', function() {
 var accounts;
 var account;
 
+//更新状态
 function setStatus(message) {
   var status = document.getElementById("status");
   status.innerHTML = message;
 };
 
+//更新余额
 function refreshBalance() {
-  var meta = Score.deployed();
+  var contractAddr = Score.deployed();
 
-  meta.getBalance.call(account, {from: account}).then(function(value) {
+  contractAddr.getBalance.call(account, {from: account}).then(function(value) {
     var balance_element = document.getElementById("balance");
     balance_element.innerHTML = value.valueOf();
   }).catch(function(e) {
     console.log(e);
-    setStatus("Error getting balance; see log.");
+    setStatus("获取积分失败");
   });
 };
 
 function sendScore() {
-  var meta = Score.deployed();
+  var contractAddr = Score.deployed();
 
   var amount = parseInt(document.getElementById("amount").value);
   var receiver = document.getElementById("receiver").value;
 
-  setStatus("Initiating transaction... (please wait)");
+  setStatus("初始化交易，请等待...");
 
-  meta.sendScore(receiver, amount, {from: account}).then(function() {
-    setStatus("Transaction complete!");
+  contractAddr.sendScore(receiver, amount, {from: account}).then(function() {
+    setStatus("交易完成！");
     refreshBalance();
   }).catch(function(e) {
     console.log(e);
-    setStatus("Error sending score; see log.");
+    setStatus("发送积分失败");
   });
 };
 
 function getScore() {
-  var meta = Score.deployed();
+  var contractAddr = Score.deployed();
   var finder = document.getElementById("findAccount").value;
-  meta.getBalance.call(finder, {from: account}).then(function(value) {
+  contractAddr.getBalance.call(finder, {from: account}).then(function(value) {
     var balance_element2 = document.getElementById("balance2");
     balance_element2.innerHTML = value.valueOf();
   }).catch(function(e) {
     console.log(e);
-    setStatus("Error getting balance; see log.");
+    setStatus("获取积分失败");
   });
 
 }
@@ -44562,17 +44564,19 @@ function getScore() {
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
-      alert("There was an error fetching your accounts.");
+      //如果没有开启以太坊客户端（testrpc、geth私有链），则无法获取账号
+      alert("无法连接到以太坊客户端...");
       return;
     }
 
     if (accs.length == 0) {
-      alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+      //没有以太坊账号
+      alert("获得账号为空");
       return;
     }
 
     accounts = accs;
-    account = accounts[0];
+    account = accounts[0]; //以第一个默认账号作为调用合约的账号
 
     refreshBalance();
   });
