@@ -9,7 +9,6 @@
 <body>
 
   <!-- 银行发行积分-->
-  <h1>发行积分</h1>
   <br><label for="amount">积分数额:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
   <br><label for="receiver">客户地址:</label><input type="text" id="receiver" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
   <br><button id="sendScoreToCustomer" onclick="sendScoreToCustomer()">发行积分</button>
@@ -22,10 +21,16 @@
   <!-- 客户转移积分给其他客户-->
   <br><br><br><label for="customerSenderAddr">转出地址:</label><input type="text" id="customerSenderAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
   <br><label for="customerReceivedAddr">转入地址:</label><input type="text" id="customerReceivedAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-  <br><label for="transferAmount">积分数额:</label><input type="text" id="transferAmount" placeholder="e.g., 95"></input>
-  <br><button id="transferScoreToOtherCustomer" onclick="transferScoreToOtherCustomer()">转移积分</button>
+  <br><label for="customerTransferAmount">积分数额:</label><input type="text" id="customerTransferAmount" placeholder="e.g., 95"></input>
+  <br><button id="transferScoreToOtherCustomer" onclick="transferScoreToOtherCustomer()">客户转移积分</button>
+
+  <!-- 商户转移积分给其他商户-->
+  <br><br><br><label for="merchantSenderAddr">转出地址:</label><input type="text" id="merchantSenderAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><label for="merchantReceivedAddr">转入地址:</label><input type="text" id="merchantReceivedAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><label for="merchantTransferAmount">积分数额:</label><input type="text" id="merchantTransferAmount" placeholder="e.g., 95"></input>
+  <br><button id="transferScoreToOtherMerchant" onclick="transferScoreToOtherMerchant()">商户转移积分</button>
 
 
-  <br><span id="status"></span>
+  <br><br><span id="status"></span>
 </body>
 </html>

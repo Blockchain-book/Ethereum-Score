@@ -45,6 +45,16 @@ contract Score {
 		return true;
 	}
 
+	//商户之间转移积分
+	function transferScoreToOtherMerchant(address sender,
+		address receiver,
+		uint amount)returns(bool) {
+		if(merchants[sender] < amount) return false;
+		merchants[sender] -= amount;
+		customers[receiver] += amount;
+		return true;
+	}
+
 
 }
 
