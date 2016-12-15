@@ -18,7 +18,6 @@ function sendScoreToCustomer() {
 
   contractAddr.sendScoreToCustomer(receiver, amount, {from: account}).then(function() {
     setStatus("发行积分完成！");
-    //refreshBalance();
   }).catch(function(e) {
     console.log(e);
     setStatus("发行积分失败！");
@@ -40,6 +39,20 @@ function getScoreWithCustomerAddr() {
 
 }
 
+//客户赠送积分给另外一个客户
+function transferScoreToOtherCustomer() {
+  var contractAddr = Score.deployed();
+  var senderAddr = document.getElementById("customerSenderAddr").value;
+  var receivedAddr = document.getElementById("customerReceivedAddr").value;
+  var amount = parseInt(document.getElementById("transferAmount").value);
+  contractAddr.transferScoreToOtherCustomer(senderAddr, receivedAddr, amount, {from: account}).then(function() {
+    setStatus("赠送积分完成！");
+  }).catch(function(e) {
+    console.log(e);
+    setStatus("赠送积分失败！");
+  });
+}
+
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
@@ -56,7 +69,8 @@ window.onload = function() {
 
     accounts = accs;
     account = accounts[0]; //以第一个默认账号作为调用合约的账号
-
-    refreshBalance();
   });
 }
+
+
+

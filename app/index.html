@@ -7,19 +7,25 @@
   <script src="./app.js"></script>
 </head>
 <body>
-  <h3> <span class="black"><span id="balance"></span> </span></h3>
 
-  <br>
-  <h1>SendScore</h1>
+  <!-- 银行发行积分-->
+  <h1>发行积分</h1>
   <br><label for="amount">积分数额:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
   <br><label for="receiver">客户地址:</label><input type="text" id="receiver" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-  <br><br><button id="sendScoreToCustomer" onclick="sendScoreToCustomer()">发行积分</button>
+  <br><button id="sendScoreToCustomer" onclick="sendScoreToCustomer()">发行积分</button>
 
-
+  <!-- 客户查询积分-->
   <br><br><br><label for="customerAddr">查询积分:</label><input type="text" id="customerAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
-  <br><br><button id="getScoreWithCustomerAddr" onclick="getScoreWithCustomerAddr()">查询积分</button>
+  <br><button id="getScoreWithCustomerAddr" onclick="getScoreWithCustomerAddr()">查询积分</button>
   <br><br>你有 <span class="black"><span id="score"></span> 积分</span>
-  <br><br>
+
+  <!-- 客户转移积分给其他客户-->
+  <br><br><br><label for="customerSenderAddr">转出地址:</label><input type="text" id="customerSenderAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><label for="customerReceivedAddr">转入地址:</label><input type="text" id="customerReceivedAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><label for="transferAmount">积分数额:</label><input type="text" id="transferAmount" placeholder="e.g., 95"></input>
+  <br><button id="transferScoreToOtherCustomer" onclick="transferScoreToOtherCustomer()">转移积分</button>
+
+
   <span id="status"></span>
 </body>
 </html>
