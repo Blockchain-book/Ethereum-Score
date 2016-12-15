@@ -3,6 +3,8 @@ pragma solidity ^0.4.2;
 contract Score {
 
     address owner; //合约的拥有者，银行
+    uint issueScoreAmount; //银行发行的积分总数
+    uint settleScoreAmount; //银行已经清算的积分总数
 
 	mapping (address=>uint) customers; //根据客户地址查找余额
 	mapping (address=>uint) merchants; //根据商户地址查找余额
@@ -21,6 +23,7 @@ contract Score {
     //银行发送积分给客户,只能被银行调用，且只能发送给客户
 	function sendScoreToCustomer(address receiver, 
 		uint amount)onlyOwner returns(bool) {
+		issueScoreAmount += amount;
 		customers[receiver] += amount;
 		return true;
 	}
@@ -51,7 +54,16 @@ contract Score {
 		uint amount)returns(bool) {
 		if(merchants[sender] < amount) return false;
 		merchants[sender] -= amount;
-		customers[receiver] += amount;
+		merchants[receiver] += amount;
+		return true;
+	}
+
+	//商户和银行进行积分清算
+	function settleScoreWithBank(address merchantAddr, 
+		uint amount)returns(bool) {
+		if(merchants[merchantAddr] < amount) return false;
+		merchants[merchantAddr] -= amount;
+		settleScoreAmount += amount;
 		return true;
 	}
 

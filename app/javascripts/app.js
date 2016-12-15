@@ -65,6 +65,8 @@ function transferScoreToOtherMerchant() {
   });
 }
 
+//商户和银行进行积分清算
+
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
