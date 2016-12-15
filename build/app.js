@@ -5790,9 +5790,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052600080546c0100000000000000000000000033810204600160a060020a0319909116179055610200806100376000396000f3606060405260e060020a600035046336eed01f811461004a57806354e0577f1461007457806358d7fa69146100ae578063a4403f50146100d7578063aecf214914610111575b610002565b346100025761013b600435600160a060020a0381166000908152600160205260409020545b919050565b346100025761014d600435602435604435600160a060020a0383166000908152600160205260408120548290101561016157506000610194565b346100025761013b600435600160a060020a03811660009081526002602052604090205461006f565b346100025761014d600435602435604435600160a060020a0383166000908152600260205260408120548290101561019b57506000610194565b346100025761014d6004356024356000805433600160a060020a039081169116146101d857610002565b60408051918252519081900360200190f35b604080519115158252519081900360200190f35b50600160a060020a0380841660009081526001602081905260408083208054869003905592851682529190208054830190555b9392505050565b50600160a060020a038084166000908152600260209081526040808320805486900390559285168252600190819052919020805483019055610194565b50600160a060020a03821660009081526001602081905260409091208054830190559291505056",
     "events": {},
-    "updated_at": 1481818551206,
+    "updated_at": 1481819887875,
     "links": {},
-    "address": "0x8a320a887733a908a36c3ec51f5ccca239e85bbb"
+    "address": "0xbacb2a32379bff490310a376ae26513c58641df8"
   }
 };
 
@@ -42971,8 +42971,10 @@ window.addEventListener('load', function() {
 
  
 
+//全局变量
 var accounts;
 var account;
+var contractAddr;
 
 //更新状态
 function setStatus(message) {
@@ -42982,7 +42984,6 @@ function setStatus(message) {
 
 //发行积分给客户
 function sendScoreToCustomer() {
-  var contractAddr = Score.deployed();
 
   var amount = parseInt(document.getElementById("amount").value); //转化为int值
   var receiver = document.getElementById("receiver").value;
@@ -42999,7 +43000,6 @@ function sendScoreToCustomer() {
 
 //根据客户address获取积分余额
 function getScoreWithCustomerAddr() {
-  var contractAddr = Score.deployed();
   var customerAddr = document.getElementById("customerAddr").value;
   contractAddr.getScoreWithCustomerAddr.call(customerAddr, {from: account}).then(function(value) {
     var balance_element = document.getElementById("score");
@@ -43014,7 +43014,6 @@ function getScoreWithCustomerAddr() {
 
 //客户赠送积分给另外一个客户
 function transferScoreToOtherCustomer() {
-  var contractAddr = Score.deployed();
   var senderAddr = document.getElementById("customerSenderAddr").value;
   var receivedAddr = document.getElementById("customerReceivedAddr").value;
   var amount = parseInt(document.getElementById("customerTransferAmount").value);
@@ -43028,7 +43027,6 @@ function transferScoreToOtherCustomer() {
 
 //商户赠送积分给另外一个商户
 function transferScoreToOtherMerchant() {
-  var contractAddr = Score.deployed();
   var senderAddr = document.getElementById("merchantSenderAddr").value;
   var receivedAddr = document.getElementById("merchantSenderAddr").value;
   var amount = parseInt(document.getElementById("merchantTransferAmount").value);
@@ -43056,6 +43054,7 @@ window.onload = function() {
 
     accounts = accs;
     account = accounts[0]; //以第一个默认账号作为调用合约的账号
+    contractAddr = Score.deployed(); //获得合约地址
   });
 }
 
