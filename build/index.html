@@ -32,6 +32,11 @@
   <br><label for="merchantTransferAmount">积分数额:</label><input type="text" id="merchantTransferAmount" placeholder="e.g., 95"></input>
   <br><button id="transferScoreToOtherMerchant" onclick="transferScoreToOtherMerchant()">商户转移积分</button>
 
+  <!-- 商户和银行进行积分清算-->
+  <br><br><br><label for="settleAddr">清算账户:</label><input type="text" id="settleAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><label for="settleAmount">清算积分:</label><input type="text" id="settleAmount" placeholder="e.g., 95"></input>
+  <br><button id="settleScoreWithBank" onclick="settleScoreWithBank()">商户清算积分</button>
+
 
   <br><br><span id="status"></span>
 </body>
