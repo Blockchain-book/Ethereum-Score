@@ -38,25 +38,16 @@ function testEvent() {
    var amount = parseInt(document.getElementById("test").value); 
   setStatus("chenyufeng");
 
-   contractAddr.register(amount, {from: account}).then(function() {
-    
-    //setStatus("发行积分成功！");
-    
-  }).catch(function(e) {
-    //setStatus("发行积分失败！");
-  });
+   contractAddr.register(amount ,{from: account}); //调用函数
 
  contractAddr.LogRegStatus().watch(function(err, event) {
-   if(event.args.result) {
-           
-            setStatus("reg success")
-     } 
-     else {
-         
-         setStatus("reg failed");
-     }
 
-     setStatus(event.args.result);
+  var res = parseInt(event.args.result) + 100;
+  console.log(res);
+  setStatus(res);
+
+
+     
 });
 
 
