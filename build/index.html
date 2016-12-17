@@ -10,8 +10,20 @@
 </head>
 <body>
 
+  <span id="status"></span>
+
+  <br><button id="testEvent" onclick="testEvent()">测试事件</button>
+
+  <!-- 客户注册-->
+  <br><br><br><label for="customerRegister">客户地址:</label><input type="text" id="customerRegister" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><button id="newCustomer" onclick="newCustomer()">客户注册</button>
+
+  <!-- 商户注册-->
+  <br><br><br><label for="merchantRegister">商户地址:</label><input type="text" id="merchantRegister" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
+  <br><button id="newMerchant" onclick="newMerchant()">商户注册</button>
+
   <!-- 银行发行积分-->
-  <br><label for="amount">积分数额:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
+  <br><br><br><label for="amount">积分数额:</label><input type="text" id="amount" placeholder="e.g., 95"></input>
   <br><label for="receiver">客户地址:</label><input type="text" id="receiver" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
   <br><button id="sendScoreToCustomer" onclick="sendScoreToCustomer()">发行积分</button>
 
@@ -36,8 +48,6 @@
   <br><br><br><label for="settleAddr">清算账户:</label><input type="text" id="settleAddr" placeholder="e.g., 0x93e66d9baea28c17d9fc393b53e3fbdd76899dae"></input>
   <br><label for="settleAmount">清算积分:</label><input type="text" id="settleAmount" placeholder="e.g., 95"></input>
   <br><button id="settleScoreWithBank" onclick="settleScoreWithBank()">商户清算积分</button>
-
-
-  <br><br><span id="status"></span>
+  
 </body>
 </html>
