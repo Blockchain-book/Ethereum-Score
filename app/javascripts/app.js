@@ -35,21 +35,36 @@ function newMerchant() {
 
 function testEvent() {
 
-   var amount = parseInt(document.getElementById("test").value); 
+  var amount = parseInt(document.getElementById("test").value); 
   setStatus("chenyufeng");
 
-   contractAddr.register(amount ,{from: account}); //调用函数
+  //第一种方式
+  contractAddr.register(amount, {from: account}).then(function() {
+    console.log("1111");
 
- contractAddr.LogRegStatus().watch(function(err, event) {
+    contractAddr.register2.call(amount, {from: account}).then(function(res) {
+      console.log("2222");
 
-  var res = parseInt(event.args.result) + 100;
-  console.log(res);
-  setStatus(res);
+      contractAddr.register3(res, {from: account});
+    });
+  }); 
 
+  //第二种方式
+  contractAddr.register(amount, {from: account}).then(function() {
+    console.log("1111");
+  }).then(function() {
+    contractAddr.register2.call(amount, {from: account}).then(function(res) {
+      console.log("2222");
+      return res;
+    }).then(function(res) {
+      contractAddr.register3(res, {from: account});
+    });
+  });
 
-     
+  contractAddr.LogRegStatus().watch(function(err, event) {
+
+  console.log(event.args.result + "    event");
 });
-
 
 
 }
