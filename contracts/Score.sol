@@ -36,8 +36,11 @@ contract Score {
 
 event LogRegStatus(address user, uint result);
 function register(uint ui) {
+
+		LogRegStatus(msg.sender, ui);
+	
   
-       LogRegStatus(msg.sender, ui);
+       
 
 }
 

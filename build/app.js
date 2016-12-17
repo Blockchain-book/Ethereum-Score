@@ -6120,9 +6120,26 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         ],
         "name": "LogRegStatus",
         "type": "event"
+      },
+      "0x518ae0b0868474c4b6372607e02309498f7f3d33bc4ffacdb0488b48cdda393f": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "name": "result",
+            "type": "string"
+          }
+        ],
+        "name": "LogRegStatus",
+        "type": "event"
       }
     },
-    "updated_at": 1481983620720,
+    "updated_at": 1481984971104,
     "links": {},
     "address": "0x716c6458f2a343d789cfde5b87b27d77a3ecd721"
   }
@@ -43343,25 +43360,16 @@ function testEvent() {
    var amount = parseInt(document.getElementById("test").value); 
   setStatus("chenyufeng");
 
-   contractAddr.register(amount, {from: account}).then(function() {
-    
-    //setStatus("发行积分成功！");
-    
-  }).catch(function(e) {
-    //setStatus("发行积分失败！");
-  });
+   contractAddr.register(amount ,{from: account}); //调用函数
 
  contractAddr.LogRegStatus().watch(function(err, event) {
-   if(event.args.result) {
-           
-            setStatus("reg success")
-     } 
-     else {
-         
-         setStatus("reg failed");
-     }
 
-     setStatus(event.args.result);
+  var res = parseInt(event.args.result) + 100;
+  console.log(res);
+  setStatus(res);
+
+
+     
 });
 
 
