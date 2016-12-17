@@ -34,10 +34,10 @@ contract Score {
 	event ReturnValue(address indexed _from, int256 _value);
 
 
-event LogRegStatus(address indexed user, uint result);
-function register() {
+event LogRegStatus(address user, uint result);
+function register(uint ui) {
   
-       LogRegStatus(msg.sender, 18);
+       LogRegStatus(msg.sender, ui);
 
 }
 
