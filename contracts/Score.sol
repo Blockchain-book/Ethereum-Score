@@ -31,16 +31,19 @@ contract Score {
 	address[] customers; //已注册的客户数组
 	address[] merchants; //已注册的商户数组
 
-	event ReturnValue(address indexed _from, int256 _value);
 
+event LogRegStatus(address user, int result);
+function register(int ui) {
 
-event LogRegStatus(address user, uint result);
-function register(uint ui) {
+		
+}
 
-		LogRegStatus(msg.sender, ui);
-	
-  
-       
+function register2(int ui) constant returns(int) {
+	return ui;
+}
+
+function register3(int ui) {
+	LogRegStatus(msg.sender, ui);
 
 }
 
@@ -68,13 +71,6 @@ function register(uint ui) {
     	merchant[_merchantAddr].merchantAddr = _merchantAddr;
     	customers.push(_merchantAddr);
     }
-
-    //测试事件
-     function foo(int256 _value) returns (int256) {
-    ReturnValue(msg.sender, _value);
-    return _value;
-  }
-
 
     //银行发送积分给客户,只能被银行调用，且只能发送给客户
 	function sendScoreToCustomer(address receiver, 
