@@ -34,9 +34,11 @@ function newMerchant() {
 }
 
 function testEvent() {
+
+   var amount = parseInt(document.getElementById("test").value); 
   setStatus("chenyufeng");
 
-   contractAddr.register({from: account}).then(function() {
+   contractAddr.register(amount, {from: account}).then(function() {
     
     //setStatus("发行积分成功！");
     
