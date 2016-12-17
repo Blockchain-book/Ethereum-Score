@@ -9,6 +9,58 @@ function setStatus(message) {
   status.innerHTML = message;
 };
 
+//注册一个客户
+function newCustomer() {
+  var register = document.getElementById("customerRegister").value;
+
+  contractAddr.newCustomer(register, {from: account}).then(function() {
+    setStatus("注册用户完成！");
+  }).catch(function(e) {
+    console.log(e);
+    setStatus("注册用户失败！");
+  });
+}
+
+//注册一个商户
+function newMerchant() {
+  var register = document.getElementById("merchantRegister").value;
+
+  contractAddr.newMerchant(register, {from: account}).then(function() {
+    setStatus("注册商户完成！");
+  }).catch(function(e) {
+    console.log(e);
+    setStatus("注册商户失败！");
+  });
+}
+
+function testEvent() {
+  setStatus("chenyufeng");
+
+   contractAddr.register({from: account}).then(function() {
+    
+    //setStatus("发行积分成功！");
+    
+  }).catch(function(e) {
+    //setStatus("发行积分失败！");
+  });
+
+ contractAddr.LogRegStatus().watch(function(err, event) {
+   if(event.args.result) {
+           
+            setStatus("reg success")
+     } 
+     else {
+         
+         setStatus("reg failed");
+     }
+
+     setStatus(event.args.result);
+});
+
+
+
+}
+
 //发行积分给客户
 function sendScoreToCustomer() {
 
@@ -17,18 +69,35 @@ function sendScoreToCustomer() {
 
   setStatus("交易确认中，请稍候...");
 
-  contractAddr.sendScoreToCustomer(receiver, amount, {from: account}).then(function() {
-    setStatus("发行积分完成！");
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("发行积分失败！");
+
+  var exampleEvent = contractAddr.ReturnValue({_from: web3.eth.coinbase});
+  exampleEvent.watch(function(err, result) {
+    if(err) {
+      setStatus(err);
+      return;
+    }
+    setStatus(result.args._value);
+
   });
+
+  contractAddr.sendScoreToCustomer.sendTransaction(web3.eth.coinbase,10,{from:  web3.eth.coinbase});
+
+  contractAddr.sendScoreToCustomer(web3.eth.coinbase, 10, {from: account}).then(function() {
+    
+    //setStatus("发行积分成功！");
+    
+  }).catch(function(e) {
+    //setStatus("发行积分失败！");
+  });
+
+
 };
 
 //根据客户address获取积分余额
 function getScoreWithCustomerAddr() {
   var customerAddr = document.getElementById("customerAddr").value;
   contractAddr.getScoreWithCustomerAddr.call(customerAddr, {from: account}).then(function(value) {
+
     var balance_element = document.getElementById("score");
     balance_element.innerHTML = value.valueOf();
     setStatus("查询积分完成！");
