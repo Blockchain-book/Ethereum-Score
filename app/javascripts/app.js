@@ -1,7 +1,7 @@
 //全局变量
-var accounts;
+var accounts; //以太坊客户端的账户数组
 var account;
-var contractAddr;
+var contractAddr; //合约地址
 
 //更新状态
 function setStatus(message) {
@@ -66,6 +66,17 @@ function transferScoreToOtherMerchant() {
 }
 
 //商户和银行进行积分清算
+function settleScoreWithBank() {
+  var settleAddr = document.getElementById("settleAddr").value;
+  var settleAmount = parseInt(document.getElementById("settleAmount").value);
+  contractAddr.settleScoreWithBank(settleAmount, settleAmount, {from: account}).then(function() {
+    setStatus("清算积分完成！");
+
+  }).catch(function(e) {
+    console.log(e);
+    setStatus("清算积分失败");
+  });
+}
 
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
