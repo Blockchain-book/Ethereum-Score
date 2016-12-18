@@ -33,41 +33,53 @@ function newMerchant() {
   });
 }
 
+
+//var eventAddr ;
 function testEvent() {
 
   var amount = parseInt(document.getElementById("test").value); 
-  setStatus("chenyufeng");
-
-  //第一种方式
+  
   contractAddr.register(amount, {from: account}).then(function() {
-    console.log("1111");
-
-    contractAddr.register2.call(amount, {from: account}).then(function(res) {
-      console.log("2222");
-
-      contractAddr.register3(res, {from: account});
-    });
-  }); 
-
-  //第二种方式
-  contractAddr.register(amount, {from: account}).then(function() {
-    console.log("1111");
-  }).then(function() {
-    contractAddr.register2.call(amount, {from: account}).then(function(res) {
-      console.log("2222");
-      return res;
-    }).then(function(res) {
-      contractAddr.register3(res, {from: account});
-    });
+  
   });
 
-  contractAddr.LogRegStatus().watch(function(err, event) {
 
-  console.log(event.args.result + "    event");
+
+  var eventAddr = contractAddr.LogRegStatus(); //LogRegStatus()为Event的名称；
+  eventAddr.watch(function(err, event) {
+
+      console.log(event.args.result.valueOf()); 
+      eventAddr.stopWatching(); //移除Event
 });
 
+ 
 
+ 
 }
+
+//测试！！！
+function hexCharCodeToStr(hexCharCodeStr) {
+　　var trimedStr = hexCharCodeStr.trim();
+　　var rawStr = 
+　　trimedStr.substr(0,2).toLowerCase() === "0x"
+　　? 
+　　trimedStr.substr(2) 
+　　: 
+　　trimedStr;
+　　var len = rawStr.length;
+　　if(len % 2 !== 0) {
+　　　　alert("Illegal Format ASCII Code!");
+　　　　return "";
+　　}
+　　var curCharCode;
+　　var resultStr = [];
+　　for(var i = 0; i < len;i = i + 2) {
+　　　　curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
+　　　　resultStr.push(String.fromCharCode(curCharCode));
+　　}
+　　return resultStr.join("");
+}
+
 
 //发行积分给客户
 function sendScoreToCustomer() {
