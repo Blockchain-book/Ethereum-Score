@@ -1,4 +1,4 @@
-<!doctype>
+<!Doctype html>
 <html>
 
 <head>
@@ -9,7 +9,7 @@
     var web3 = new Web3();
     web3.setProvider(new web3.providers.HttpProvider("http://localhost:8545"));
 
-    // solidity code code
+    // solidity code
     var source = "" +
     "contract test {\n" +
     "   function multiply(uint a) constant returns(uint d) {\n" +
@@ -65,11 +65,11 @@
     <h1>contract</h1>
     <div id="code"></div> 
     <div id="status"></div>
-    <div id='create'>
-        <button type="button" onClick="createExampleContract();">create example contract</button>
+    <div id="create">
+        <button type="button" onclick="createExampleContract();">create example contract</button>
     </div>
-    <div id='call' style='visibility: hidden;'>
-        <input type="number" id="value" onkeyup='callExampleContract()'></input>
+    <div id="call" style="visibility: hidden;">
+        <input type="number" id="value" onkeyup="callExampleContract()">
     </div>
     <div id="result"></div>
 </body>
