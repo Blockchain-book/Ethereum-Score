@@ -14,10 +14,17 @@ function newCustomer() {
   var register = document.getElementById("customerRegister").value;
 
   contractAddr.newCustomer(register, {from: account}).then(function() {
-    setStatus("注册用户完成！");
+    
   }).catch(function(e) {
     console.log(e);
-    setStatus("注册用户失败！");
+    setStatus(e);
+  });
+
+  var eventAddr = contractAddr.NewCustomer();
+  eventAddr.watch(function(error, event) {
+    console.log(event.args.msg);
+    alert(event.args.msg);
+    eventAddr.stopWatching(); //一定要停止监听，否则有bug；
   });
 }
 
