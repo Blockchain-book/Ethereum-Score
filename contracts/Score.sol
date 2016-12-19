@@ -108,7 +108,7 @@ contract Score is Utils {
     //设置用户密码
     event SetCustomerPassword(address sender, string message);
     function setCustomerPassword(address _customerAddr, string _password) {
-            customer[_customerAddr].password = "123";
+            customer[_customerAddr].password = stringToBytes32(_password);
             SetCustomerPassword(msg.sender, "设置密码成功");
     }
 
