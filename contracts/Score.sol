@@ -31,6 +31,8 @@ contract Score {
 	address[] customers; //已注册的客户数组
 	address[] merchants; //已注册的商户数组
 
+	event NewCustomer(address sender, bool isSuccess, string msg);
+
     //增加权限控制，某些方法只能由合约的创建者调用
     modifier onlyOwner(){
 		if(msg.sender != owner) throw;
@@ -44,9 +46,30 @@ contract Score {
 
     //注册一个客户
     function newCustomer(address _customerAddr) returns(bool) {
-    	customer[_customerAddr].customerAddr = _customerAddr;
-    	customers.push(_customerAddr);
-    	return true;
+
+        //判断是否已经注册
+        if(!isCustomerAlreadyRegister(_customerAddr)) {
+        	//还未注册
+            customer[_customerAddr].customerAddr = _customerAddr;
+    	    customers.push(_customerAddr);
+    	    NewCustomer(msg.sender, true, "注册成功");
+    	    return true;
+        }
+        else {
+        	//已经注册
+        	NewCustomer(msg.sender, false, "该用户已经注册");
+        	return false;
+        }
+    }
+
+    //判断一个客户是否已经注册
+    function isCustomerAlreadyRegister(address _customerAddr) returns(bool) {
+    	for(uint i = 0; i < customers.length; i++) {
+    		if(customers[i] == _customerAddr) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
     //注册一个商户
