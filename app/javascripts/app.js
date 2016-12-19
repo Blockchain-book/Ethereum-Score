@@ -11,20 +11,27 @@ function setStatus(message) {
 
 //注册一个客户
 function newCustomer() {
-  var register = document.getElementById("customerRegister").value;
+  var address = document.getElementById("customerAddress").value;
+  var password = document.getElementById("customerPassword").value;
 
-  contractAddr.newCustomer(register, {from: account}).then(function() {
-    
-  }).catch(function(e) {
-    console.log(e);
-    setStatus(e);
-  });
+  contractAddr.newCustomer(address, password, {from: account});
 
   var eventAddr = contractAddr.NewCustomer();
   eventAddr.watch(function(error, event) {
-    console.log(event.args.msg);
-    alert(event.args.msg);
-    eventAddr.stopWatching(); //一定要停止监听，否则有bug；
+    console.log(event.args.message);
+    alert(event.args.message);
+    
+    if(event.args.isSuccess) {
+      contractAddr.setCustomerPassword(address, password, {from: account});
+    }
+    eventAddr.stopWatching(); //一定要停止监听，否则有bug；  
+  });
+
+  var eventAddr2 = contractAddr.SetCustomerPassword();
+  eventAddr2.watch(function(error, event) {
+     console.log(event.args.message);
+    //alert(event.args.message);
+    eventAddr2.stopWatching();
   });
 }
 
