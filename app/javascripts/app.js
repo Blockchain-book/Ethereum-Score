@@ -16,22 +16,23 @@ function newCustomer() {
 
   contractAddr.newCustomer(address, password, {from: account});
 
-  var eventAddr = contractAddr.NewCustomer();
-  eventAddr.watch(function(error, event) {
+  var eventNewCustomer = contractAddr.NewCustomer();
+  eventNewCustomer.watch(function(error, event) {
     console.log(event.args.message);
     alert(event.args.message);
     
     if(event.args.isSuccess) {
+      //注册成功，设置密码在两个方法中实现，因为在一个方法中实现会出现out of gas
       contractAddr.setCustomerPassword(address, password, {from: account});
-    }
-    eventAddr.stopWatching(); //一定要停止监听，否则有bug；  
-  });
 
-  var eventAddr2 = contractAddr.SetCustomerPassword();
-  eventAddr2.watch(function(error, event) {
-     console.log(event.args.message);
-    //alert(event.args.message);
-    eventAddr2.stopWatching();
+      var eventSetCustomerPassword = contractAddr.SetCustomerPassword();
+      eventSetCustomerPassword.watch(function(error, event) {
+      console.log(event.args.message);
+      
+      eventSetCustomerPassword.stopWatching();
+     });
+    }
+    eventNewCustomer.stopWatching(); //一定要停止监听，否则有bug；  
   });
 }
 
