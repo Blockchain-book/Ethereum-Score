@@ -7,7 +7,7 @@ var contractAddr; //合约地址
 function setStatus(message) {
   var status = document.getElementById("status");
   status.innerHTML = message;
-};
+}
 
 //注册一个客户
 function newCustomer() {
@@ -61,11 +61,7 @@ function testEvent() {
 function hexCharCodeToStr(hexCharCodeStr) {
 　　var trimedStr = hexCharCodeStr.trim();
 　　var rawStr = 
-　　trimedStr.substr(0,2).toLowerCase() === "0x"
-　　? 
-　　trimedStr.substr(2) 
-　　: 
-　　trimedStr;
+　　trimedStr.substr(0,2).toLowerCase() === "0x" ? trimedStr.substr(2) : trimedStr;
 　　var len = rawStr.length;
 　　if(len % 2 !== 0) {
 　　　　alert("Illegal Format ASCII Code!");
@@ -111,7 +107,7 @@ function sendScoreToCustomer() {
   });
 
 
-};
+}
 
 //根据客户address获取积分余额
 function getScoreWithCustomerAddr() {
@@ -169,13 +165,13 @@ function settleScoreWithBank() {
 
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
-    if (err != null) {
+    if (err !== null) {
       //如果没有开启以太坊客户端（testrpc、geth私有链），则无法获取账号
       alert("无法连接到以太坊客户端...");
       return;
     }
 
-    if (accs.length == 0) {
+    if (accs.length === 0) {
       //没有以太坊账号
       alert("获得账号为空");
       return;
@@ -185,7 +181,7 @@ window.onload = function() {
     account = accounts[0]; //以第一个默认账号作为调用合约的账号
     contractAddr = Score.deployed(); //获得合约地址
   });
-}
+};
 
 
 
