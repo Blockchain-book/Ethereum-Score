@@ -35,6 +35,7 @@ contract Score is Utils {
 
     struct Customer {
     	address customerAddr; //客户address
+    	bytes32 password; //客户密码
     	uint scoreAmount; //积分余额
     	bytes32[] goods; //购买的商品数组
     }
@@ -57,9 +58,6 @@ contract Score is Utils {
 
 	address[] customers; //已注册的客户数组
 	address[] merchants; //已注册的商户数组
-
-	mapping (address=>bytes32) customerPassword; //用户密码
-
 
     //增加权限控制，某些方法只能由合约的创建者调用
     modifier onlyOwner(){
@@ -110,7 +108,7 @@ contract Score is Utils {
     //设置用户密码
     event SetCustomerPassword(address sender, string message);
     function setCustomerPassword(address _customerAddr, string _password) {
-            customerPassword[_customerAddr] = "123";
+            customer[_customerAddr].password = "123";
             SetCustomerPassword(msg.sender, "设置密码成功");
     }
 
