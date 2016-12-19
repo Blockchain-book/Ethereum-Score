@@ -31,16 +31,6 @@ contract Score {
 	address[] customers; //已注册的客户数组
 	address[] merchants; //已注册的商户数组
 
-
-event LogRegStatus(address user, int result);
-
-function register(int ui){
-
-	LogRegStatus(msg.sender, ui);
-
-}
-
-
     //增加权限控制，某些方法只能由合约的创建者调用
     modifier onlyOwner(){
 		if(msg.sender != owner) throw;
@@ -63,6 +53,7 @@ function register(int ui){
     function newMerchant(address _merchantAddr) returns(bool) {
     	merchant[_merchantAddr].merchantAddr = _merchantAddr;
     	customers.push(_merchantAddr);
+    	return true;
     }
 
     //银行发送积分给客户,只能被银行调用，且只能发送给客户

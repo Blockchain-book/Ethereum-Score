@@ -33,31 +33,7 @@ function newMerchant() {
   });
 }
 
-
-//var eventAddr ;
-function testEvent() {
-
-  var amount = parseInt(document.getElementById("test").value); 
-  
-  contractAddr.register(amount, {from: account}).then(function() {
-  
-  });
-
-
-
-  var eventAddr = contractAddr.LogRegStatus(); //LogRegStatus()为Event的名称；
-  eventAddr.watch(function(err, event) {
-
-      console.log(event.args.result.valueOf()); 
-      eventAddr.stopWatching(); //移除Event
-});
-
- 
-
- 
-}
-
-//测试！！！
+//十六进制转化为字符串
 function hexCharCodeToStr(hexCharCodeStr) {
 　　var trimedStr = hexCharCodeStr.trim();
 　　var rawStr = 
