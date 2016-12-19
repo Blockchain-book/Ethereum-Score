@@ -1,6 +1,33 @@
 pragma solidity ^0.4.2;
 
-contract Score {
+contract Utils {
+
+	function stringToBytes32(string memory source)constant internal returns (bytes32 result) {
+    assembly {
+        result := mload(add(source, 32))
+      }
+    }
+
+    function bytes32ToString(bytes32 x)constant internal returns (string) {
+    bytes memory bytesString = new bytes(32);
+    uint charCount = 0;
+    for (uint j = 0; j < 32; j++) {
+        byte char = byte(bytes32(uint(x) * 2 ** (8 * j)));
+        if (char != 0) {
+            bytesString[charCount] = char;
+            charCount++;
+        }
+    }
+    bytes memory bytesStringTrimmed = new bytes(charCount);
+    for (j = 0; j < charCount; j++) {
+        bytesStringTrimmed[j] = bytesString[j];
+    }
+    return string(bytesStringTrimmed);
+    }
+
+}
+
+contract Score is Utils {
 
     address owner; //合约的拥有者，银行
     uint issueScoreAmount; //银行发行的积分总数
@@ -31,7 +58,8 @@ contract Score {
 	address[] customers; //已注册的客户数组
 	address[] merchants; //已注册的商户数组
 
-	event NewCustomer(address sender, bool isSuccess, string msg);
+	mapping (address=>bytes32) customerPassword; //用户密码
+
 
     //增加权限控制，某些方法只能由合约的创建者调用
     modifier onlyOwner(){
@@ -45,31 +73,45 @@ contract Score {
 	}
 
     //注册一个客户
-    function newCustomer(address _customerAddr) returns(bool) {
+	event NewCustomer(address sender, bool isSuccess, string message);
+    function newCustomer(address _customerAddr, 
+    	string _password) {
+
+    	bool isSuccess;
+    	string memory message;
 
         //判断是否已经注册
         if(!isCustomerAlreadyRegister(_customerAddr)) {
         	//还未注册
             customer[_customerAddr].customerAddr = _customerAddr;
     	    customers.push(_customerAddr);
-    	    NewCustomer(msg.sender, true, "注册成功");
-    	    return true;
+    	    isSuccess = true;
+    	    message = "注册成功";
         }
-        else {
-        	//已经注册
-        	NewCustomer(msg.sender, false, "该用户已经注册");
-        	return false;
+        else 
+        {
+            isSuccess = false;
+        	message = "已经注册";
         }
+        	
+        NewCustomer(msg.sender, isSuccess, message);
     }
 
     //判断一个客户是否已经注册
-    function isCustomerAlreadyRegister(address _customerAddr) returns(bool) {
+    function isCustomerAlreadyRegister(address _customerAddr)internal returns(bool) {
     	for(uint i = 0; i < customers.length; i++) {
     		if(customers[i] == _customerAddr) {
     			return true;
     		}
     	}
     	return false;
+    }
+
+    //设置用户密码
+    event SetCustomerPassword(address sender, string message);
+    function setCustomerPassword(address _customerAddr, string _password) {
+            customerPassword[_customerAddr] = "123";
+            SetCustomerPassword(msg.sender, "设置密码成功");
     }
 
     //注册一个商户
