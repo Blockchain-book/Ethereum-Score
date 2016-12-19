@@ -1,4 +1,4 @@
-<!doctype>
+<!Doctype html>
 <html>
 
 <head>
@@ -52,12 +52,12 @@
             document.getElementById('nameregValidation').innerText = 'namereg address is incorrect!';
         }
         return ok;
-    };
+    }
 
     function onNameregKeyUp() {
         updateIBAN(validateNamereg());
         onExchangeKeyUp();
-    };
+    }
     
     function validateExchange() {
         var exchange = document.getElementById('exchange').value;
@@ -70,11 +70,11 @@
             document.getElementById('exchangeValidation').innerText = 'exchange id is incorrect';
         }
         return ok;
-    };
+    }
 
     function onExchangeKeyUp() {
         updateIBAN(validateExchange());
-    };
+    }
 
     function validateClient() {
         var client = document.getElementById('client').value;
@@ -85,11 +85,11 @@
             document.getElementById('clientValidation').innerText = 'client id is incorrect';
         }
         return ok;
-    };
+    }
 
     function onClientKeyUp() {
         updateIBAN(validateClient());
-    };
+    }
 
     function validateValue() {
         try {
@@ -101,18 +101,18 @@
             document.getElementById('valueValidation').innerText = 'Value is incorrect, cannot parse';
             return false;
         }
-    };
+    }
 
     function onValueKeyUp() {
         validateValue();
-    };
+    }
 
     function validateIBAN() {
         if (!iban.isValid()) {
             return document.getElementById('ibanValidation').innerText = ' - IBAN number is incorrect';
         }
         document.getElementById('ibanValidation').innerText = ' - IBAN number correct';
-    };
+    }
 
     function updateIBAN(ok) {
         var exchangeId = document.getElementById('exchange').value;
@@ -123,7 +123,7 @@
         });
         document.getElementById('iban').innerText = iban.toString();
         validateIBAN();
-    };
+    }
 
     function transfer() {
         var value = new BigNumber(document.getElementById('value').value);
@@ -131,7 +131,7 @@
         var client = document.getElementById('client').value;
         deposit.deposit(web3.fromAscii(client), {value: value});
         displayTransfer("deposited client's " + client + " funds " + value.toString(10) + " to exchange " + exchange);
-    };
+    }
 
     function displayTransfer(text) {
         var node = document.createElement('li');
@@ -153,28 +153,28 @@
                 <legend class="lead">namereg address</legend>
                 <small>eg. 0x436474facc88948696b371052a1befb801f003ca or 'default')</small>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="namereg" onkeyup='onNameregKeyUp()' value="default"></input>
+                    <input class="form-control" type="text" id="namereg" onkeyup="onNameregKeyUp()" value="default">
                     <text id="nameregValidation"></text>
                 </div>
 
                 <legend class="lead">exchange identifier</legend>
                 <small>eg. WYWY</small>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="exchange" onkeyup='onExchangeKeyUp()'></input>
+                    <input class="form-control" type="text" id="exchange" onkeyup="onExchangeKeyUp()">
                     <text id="exchangeValidation"></text>
                 </div>
 
                 <legend class="lead">client identifier</legend>
                 <small>eg. GAVOFYORK</small>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="client" onkeyup='onClientKeyUp()'></input>
+                    <input class="form-control" type="text" id="client" onkeyup="onClientKeyUp()">
                     <text id="clientValidation"></text>
                 </div>
 
                 <legend class="lead">value</legend>
                 <small>eg. 100</small>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="value" onkeyup='onValueKeyUp()'></input>
+                    <input class="form-control" type="text" id="value" onkeyup="onValueKeyUp()">
                     <text id="valueValidation"></text>
                 </div>
 
@@ -185,7 +185,7 @@
                     <text id="ibanValidation"></text>
                 </div>
                 <div>
-                    <button class="btn btn-default" id="transfer" type="button" onClick="transfer()">Transfer!</button>
+                    <button class="btn btn-default" id="transfer" type="button" onclick="transfer()">Transfer!</button>
                     <text id="transferValidation"></text>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                     <legend class="lead">transfers</legend>
                 </div>
                 <div>
-                    <ul id='transfers'></ul>
+                    <ul id="transfers"></ul>
                 </div>
             </div>
         </div>
