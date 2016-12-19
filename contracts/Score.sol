@@ -89,7 +89,7 @@ contract Score is Utils {
         else 
         {
             isSuccess = false;
-        	message = "已经注册";
+        	message = "该账户已经注册";
         }
         	
         NewCustomer(msg.sender, isSuccess, message);
@@ -107,7 +107,8 @@ contract Score is Utils {
 
     //设置用户密码
     event SetCustomerPassword(address sender, string message);
-    function setCustomerPassword(address _customerAddr, string _password) {
+    function setCustomerPassword(address _customerAddr, 
+    	string _password) {
             customer[_customerAddr].password = stringToBytes32(_password);
             SetCustomerPassword(msg.sender, "设置密码成功");
     }
