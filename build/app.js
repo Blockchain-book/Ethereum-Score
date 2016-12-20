@@ -6368,9 +6368,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1482164340747,
+    "updated_at": 1482199433984,
     "links": {},
-    "address": "0xb44871f60ea0e34a3256737760b577aeb24b019e"
+    "address": "0xdd1ff8b0e349843976082e54aa8904ae33e0ddca"
   }
 };
 
@@ -6853,7 +6853,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     "abi": [],
     "unlinked_binary": "0x606060405260088060106000396000f36060604052600256",
     "events": {},
-    "updated_at": 1482164340739,
+    "updated_at": 1482199433989,
     "links": {}
   }
 };
@@ -44055,6 +44055,12 @@ var contractAddr; //合约地址
 function setStatus(message) {
   var status = document.getElementById("status");
   status.innerHTML = message;
+}
+
+function test() {
+  var result1 = "chen"; 
+  var result2 = "yufeng";
+  location.href="test.html?name1="+result1+"&name2="+result2;  
 }
 
 //注册一个客户

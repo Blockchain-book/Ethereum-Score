@@ -9,6 +9,12 @@ function setStatus(message) {
   status.innerHTML = message;
 }
 
+function test() {
+  var result1 = "chen"; 
+  var result2 = "yufeng";
+  location.href="test.html?name1="+result1+"&name2="+result2;  
+}
+
 //注册一个客户
 function newCustomer() {
   var address = document.getElementById("customerAddress").value;

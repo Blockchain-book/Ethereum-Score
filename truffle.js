@@ -1,6 +1,7 @@
 module.exports = {
   build: {
     "index.html": "index.html",
+    "test.html": "test.html",
     "app.js": [
       "javascripts/app.js"
     ],
