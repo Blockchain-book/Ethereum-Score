@@ -47,20 +47,19 @@ function customerLogin() {
   var address = document.getElementById("customerLoginAddr").value;
   var password = document.getElementById("customerLoginPwd").value;
 
-  contractAddr.getCustomerPassword(address, {from: account}).then(function(result) {
+    contractAddr.getCustomerPassword(address, {from: account}).then(function(result) {
     console.log(password);
     console.log(hexCharCodeToStr(result));
 
     if(password.localeCompare(hexCharCodeToStr(result)) === 0) {
       console.log("登录成功");
       //跳转到用户界面
-      location.href="test.html?account=" + address;
+      location.href="customer.html?account=" + address;
     }
     else {
       console.log("登录失败");
     }
   });
-  
 }
 
 //注册一个商户

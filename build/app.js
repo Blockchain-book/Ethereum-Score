@@ -6386,9 +6386,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1482248870159,
+    "updated_at": 1482253001977,
     "links": {},
-    "address": "0x42cd8a66ef44e2bc66bc8b657752ce1dc7b6abb1"
+    "address": "0x4b5788cbfe3685ee1e1ae3e10e99a476b24f4f64"
   }
 };
 
@@ -6871,7 +6871,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     "abi": [],
     "unlinked_binary": "0x606060405260088060106000396000f36060604052600256",
     "events": {},
-    "updated_at": 1482248870149,
+    "updated_at": 1482253001967,
     "links": {}
   }
 };
@@ -44113,20 +44113,19 @@ function customerLogin() {
   var address = document.getElementById("customerLoginAddr").value;
   var password = document.getElementById("customerLoginPwd").value;
 
-  contractAddr.getCustomerPassword(address, {from: account}).then(function(result) {
+    contractAddr.getCustomerPassword(address, {from: account}).then(function(result) {
     console.log(password);
     console.log(hexCharCodeToStr(result));
 
     if(password.localeCompare(hexCharCodeToStr(result)) === 0) {
       console.log("登录成功");
       //跳转到用户界面
-      location.href="test.html?account=" + address;
+      location.href="customer.html?account=" + address;
     }
     else {
       console.log("登录失败");
     }
   });
-  
 }
 
 //注册一个商户
