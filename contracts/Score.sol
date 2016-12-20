@@ -113,6 +113,11 @@ contract Score is Utils {
             SetCustomerPassword(msg.sender, "设置密码成功");
     }
 
+    //查询用户密码
+    function getCustomerPassword(address _customerAddr)constant returns(bytes32) {
+        return customer[_customerAddr].password;
+    }
+
     //注册一个商户
     function newMerchant(address _merchantAddr) returns(bool) {
     	merchant[_merchantAddr].merchantAddr = _merchantAddr;
