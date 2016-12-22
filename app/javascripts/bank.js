@@ -19,3 +19,10 @@ function sendScoreToCustomer() {
         eventSendScoreToCustomer.stopWatching();
     });
 }
+
+function getIssuedScoreAmount() {
+    contractAddr.getIssuedScoreAmount({from: account}).then(function (result) {
+        alert("已发行的积分总数为：" + result);
+    });
+
+}
