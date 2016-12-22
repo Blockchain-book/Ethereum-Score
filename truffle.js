@@ -4,7 +4,8 @@ module.exports = {
     "test.html": "test.html",
     "customer.html": "customer.html",
     "app.js": [
-      "javascripts/app.js"
+        "javascripts/app.js",
+        "javascripts/customer.js"
     ],
     "app.css": [
       "stylesheets/app.css"
