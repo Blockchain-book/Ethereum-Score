@@ -3,9 +3,11 @@ module.exports = {
     "index.html": "index.html",
     "test.html": "test.html",
     "customer.html": "customer.html",
+    "bank.html": "bank.html",
     "app.js": [
         "javascripts/app.js",
-        "javascripts/customer.js"
+        "javascripts/customer.js",
+        "javascripts/bank.js"
     ],
     "app.css": [
       "stylesheets/app.css"
