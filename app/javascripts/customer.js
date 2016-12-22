@@ -15,3 +15,10 @@ function getCurrentCustomer() {
     alert(currentAccount);
 }
 
+//客户赠送积分给另外一个客户
+function transferScoreToOtherCustomer() {
+    var receivedAddr = document.getElementById("anotherCustomerAddr").value;
+    var amount = parseInt(document.getElementById("scoreAmount").value);
+    contractAddr.transferScoreToOtherCustomer(currentAccount, receivedAddr, amount, {from: account});
+}
+
