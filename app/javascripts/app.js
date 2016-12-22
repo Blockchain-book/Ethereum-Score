@@ -63,6 +63,20 @@ function customerLogin() {
   });
 }
 
+//银行管理员登录
+function bankLogin() {
+    var address = document.getElementById("bankLoginAddr").value;
+    contractAddr.getOwner({from: account}).then(function (result) {
+        if(address.localeCompare(result) === 0) {
+            //跳转到管理员页面
+            location.href = "bank.html?account=" + address;
+        }
+        else {
+            alert("不是银行账户，登录失败");
+        }
+    });
+}
+
 //注册一个商户
 function newMerchant() {
   var register = document.getElementById("merchantRegister").value;

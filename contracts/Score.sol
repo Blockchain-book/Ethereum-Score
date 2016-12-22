@@ -70,6 +70,10 @@ contract Score is Utils {
 		owner = msg.sender;
 	}
 
+    function getOwner() constant returns(address) {
+        return owner;
+    }
+
     //注册一个客户
 	event NewCustomer(address sender, bool isSuccess, string message);
     function newCustomer(address _customerAddr, 
