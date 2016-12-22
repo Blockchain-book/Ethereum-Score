@@ -3,19 +3,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
 	<title>用户</title>
-
-    <script type="text/javascript">
-	var thisURL = document.URL;
-	var getvalArr =thisURL.split('?')[1]; 
-	var keyValueArr = getvalArr.split('&'); 
-	console.log("当前用户：" + keyValueArr[0].split('=')[1]);
-		
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link href="./app.css" rel="stylesheet" type="text/css">
+    <script src="./app.js"></script>
+    <script>
+        var getvalArr = document.URL.split('?')[1];
+        var keyValueArr = getvalArr.split('&');
+        console.log("当前用户：" + keyValueArr[0].split('=')[1]);
+        currentAccount = keyValueArr[0].split('=')[1];
     </script>
+
 </head>
 <body>
 
-	
+    <br><button id="alertCurrentCustomer" onclick="alertCurrentCustomer()">当前客户</button>
 </body>
+
 </html>

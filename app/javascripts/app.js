@@ -58,6 +58,7 @@ function customerLogin() {
     }
     else {
       console.log("登录失败");
+      alert("密码错误，登录失败");
     }
   });
 }
@@ -126,21 +127,6 @@ function sendScoreToCustomer() {
 
 }
 
-//根据客户address获取积分余额
-function getScoreWithCustomerAddr() {
-  var customerAddr = document.getElementById("customerAddr").value;
-  contractAddr.getScoreWithCustomerAddr.call(customerAddr, {from: account}).then(function(value) {
-
-    var balance_element = document.getElementById("score");
-    balance_element.innerHTML = value.valueOf();
-    setStatus("查询积分完成！");
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("查询积分失败！");
-  });
-
-}
-
 //客户赠送积分给另外一个客户
 function transferScoreToOtherCustomer() {
   var senderAddr = document.getElementById("customerSenderAddr").value;
@@ -181,6 +167,7 @@ function settleScoreWithBank() {
 }
 
 window.onload = function() {
+
   web3.eth.getAccounts(function(err, accs) {
     if (err !== null) {
       //如果没有开启以太坊客户端（testrpc、geth私有链），则无法获取账号
@@ -197,6 +184,7 @@ window.onload = function() {
     accounts = accs;
     account = accounts[0]; //以第一个默认账号作为调用合约的账号
     contractAddr = Score.deployed(); //获得合约地址
+    console.log("合约地址："+contractAddr.address);
   });
 };
 
