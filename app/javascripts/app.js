@@ -102,18 +102,7 @@ function hexCharCodeToStr(hexCharCodeStr) {
 　　return resultStr.join("");
 }
 
-//客户赠送积分给另外一个客户
-function transferScoreToOtherCustomer() {
-  var senderAddr = document.getElementById("customerSenderAddr").value;
-  var receivedAddr = document.getElementById("customerReceivedAddr").value;
-  var amount = parseInt(document.getElementById("customerTransferAmount").value);
-  contractAddr.transferScoreToOtherCustomer(senderAddr, receivedAddr, amount, {from: account}).then(function() {
-    setStatus("赠送积分完成！");
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("赠送积分失败！");
-  });
-}
+
 
 //商户赠送积分给另外一个商户
 function transferScoreToOtherMerchant() {

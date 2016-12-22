@@ -163,11 +163,10 @@ contract Score is Utils {
 	//客户之间转移积分
 	function transferScoreToOtherCustomer(address sender, 
 		address receiver, 
-		uint amount)returns(bool) {
-		if(customer[sender].scoreAmount < amount) return false;
+		uint amount){
+		
 		customer[sender].scoreAmount -= amount;
 		customer[receiver].scoreAmount += amount;
-		return true;
 	}
 
 	//商户之间转移积分
