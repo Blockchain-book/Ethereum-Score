@@ -161,12 +161,21 @@ contract Score is Utils {
 	}
 
 	//客户之间转移积分
-	function transferScoreToOtherCustomer(address sender, 
-		address receiver, 
-		uint amount){
-		
-		customer[sender].scoreAmount -= amount;
-		customer[receiver].scoreAmount += amount;
+    event TransferScoreToOtherCustomer(address sender, string message);
+	function transferScoreToOtherCustomer(address _sender, 
+		address _receiver, 
+		uint _amount) {
+        string memory message;
+
+        if(customer[_sender].scoreAmount >= _amount) {
+            customer[_sender].scoreAmount -= _amount;
+            customer[_receiver].scoreAmount += _amount;
+            message = "积分转让成功！";
+        }
+        else {
+            message = "您的积分余额不足，转让失败！";
+        }
+        TransferScoreToOtherCustomer(msg.sender, message);
 	}
 
 	//商户之间转移积分
