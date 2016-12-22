@@ -130,7 +130,7 @@ contract Score is Utils {
     }
 
     //银行发送积分给客户,只能被银行调用，且只能发送给客户
-    event SendScoreToCustomer(address sender, bool isSuccess,string message);
+    event SendScoreToCustomer(address sender, string message);
 	function sendScoreToCustomer(address _receiver, 
 		uint _amount)onlyOwner {
         
@@ -141,15 +141,13 @@ contract Score is Utils {
             //已经注册
             issueScoreAmount += _amount;
             customer[_receiver].scoreAmount += _amount;
-            isSuccess = true;
             message = "发行积分成功";
         }
         else {
             //还没注册
-            isSuccess = false;
             message = "该账户未注册，发行积分失败";
         }
-        SendScoreToCustomer(msg.sender, isSuccess, message);
+        SendScoreToCustomer(msg.sender, message);
 	}
 
     //根据客户address查找余额

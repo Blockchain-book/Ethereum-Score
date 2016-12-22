@@ -7,11 +7,11 @@ function getScoreWithCustomerAddr() {
     alert("当前余额：" + value.valueOf());
   }).catch(function(e) {
     console.log(e);
-    setStatus("查询积分失败！");
+    alert("出现异常，查询余额失败！");
   });
 }
 
-function alertCurrentCustomer() {
+function getCurrentCustomer() {
     alert(currentAccount);
 }
 
