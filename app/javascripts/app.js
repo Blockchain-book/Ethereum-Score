@@ -9,12 +9,6 @@ function setStatus(message) {
   status.innerHTML = message;
 }
 
-function test() {
-  var result1 = "chen"; 
-  var result2 = "yufeng";
-  location.href="test.html?name1="+result1+"&name2="+result2;  
-}
-
 //注册一个客户
 function newCustomer() {
   var address = document.getElementById("customerAddress").value;
@@ -106,39 +100,6 @@ function hexCharCodeToStr(hexCharCodeStr) {
 　　　　resultStr.push(String.fromCharCode(curCharCode));
 　　}
 　　return resultStr.join("");
-}
-
-
-//发行积分给客户
-function sendScoreToCustomer() {
-
-  var amount = parseInt(document.getElementById("amount").value); //转化为int值
-  var receiver = document.getElementById("receiver").value;
-
-  setStatus("交易确认中，请稍候...");
-
-
-  var exampleEvent = contractAddr.ReturnValue({_from: web3.eth.coinbase});
-  exampleEvent.watch(function(err, result) {
-    if(err) {
-      setStatus(err);
-      return;
-    }
-    setStatus(result.args._value);
-
-  });
-
-  contractAddr.sendScoreToCustomer.sendTransaction(web3.eth.coinbase,10,{from:  web3.eth.coinbase});
-
-  contractAddr.sendScoreToCustomer(web3.eth.coinbase, 10, {from: account}).then(function() {
-    
-    //setStatus("发行积分成功！");
-    
-  }).catch(function(e) {
-    //setStatus("发行积分失败！");
-  });
-
-
 }
 
 //客户赠送积分给另外一个客户
