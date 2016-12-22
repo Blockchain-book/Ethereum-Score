@@ -20,5 +20,13 @@ function transferScoreToOtherCustomer() {
     var receivedAddr = document.getElementById("anotherCustomerAddr").value;
     var amount = parseInt(document.getElementById("scoreAmount").value);
     contractAddr.transferScoreToOtherCustomer(currentAccount, receivedAddr, amount, {from: account});
+    var eventTransferScoreToOtherCustomer = contractAddr.TransferScoreToOtherCustomer();
+    eventTransferScoreToOtherCustomer.watch(function (error, event) {
+        console.log(event.args.message);
+        alert(event.args.message);
+
+        eventTransferScoreToOtherCustomer.stopWatching();
+    });
+
 }
 
