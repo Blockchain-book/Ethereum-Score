@@ -30,8 +30,8 @@ contract Utils {
 contract Score is Utils {
 
     address owner; //合约的拥有者，银行
-    uint issueScoreAmount; //银行发行的积分总数
-    uint settleScoreAmount; //银行已经清算的积分总数
+    uint issuedScoreAmount; //银行已经发行的积分总数
+    uint settledScoreAmount; //银行已经清算的积分总数
 
     struct Customer {
     	address customerAddr; //客户address
@@ -139,7 +139,7 @@ contract Score is Utils {
 
         if(isCustomerAlreadyRegister(_receiver)) {
             //已经注册
-            issueScoreAmount += _amount;
+            issuedScoreAmount += _amount;
             customer[_receiver].scoreAmount += _amount;
             message = "发行积分成功";
         }
@@ -178,6 +178,11 @@ contract Score is Utils {
         TransferScoreToOtherCustomer(msg.sender, message);
 	}
 
+    //银行查找已经发行的积分总数
+    function getIssuedScoreAmount()constant returns(uint) {
+        return issuedScoreAmount;
+    }
+
 	//商户之间转移积分
 	function transferScoreToOtherMerchant(address sender,
 		address receiver,
@@ -193,7 +198,7 @@ contract Score is Utils {
 		uint amount)returns(bool) {
 		if(merchant[merchantAddr].scoreAmount < amount) return false;
 		merchant[merchantAddr].scoreAmount -= amount;
-		settleScoreAmount += amount;
+		settledScoreAmount += amount;
 		return true;
 	}
 
