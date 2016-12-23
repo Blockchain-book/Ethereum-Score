@@ -36,6 +36,31 @@ function newCustomer() {
   });
 }
 
+//注册一个商户
+function newMerchant() {
+    var address = document.getElementById("merchantAddress").value;
+    var password = document.getElementById("merchantPassword").value;
+
+    contractAddr.newMerchant(address, password, {from: account});
+
+    var eventNewMerchant = contractAddr.NewMerchant();
+    eventNewMerchant.watch(function (error, event) {
+        console.log(event.args.message);
+        alert(event.args.message);
+
+        if(event.args.isSuccess) {
+            contractAddr.setMerchantPassword(address, password, {from: account});
+
+            var eventSetMerchantPassword = contractAddr.SetMerchantPassword();
+            eventSetMerchantPassword.watch(function (error, event) {
+                console.log(event.args.message);
+                eventSetMerchantPassword.stopWatching();
+            });
+        }
+        eventNewMerchant.stopWatching();
+    });
+}
+
 //客户登录
 function customerLogin() {
   var address = document.getElementById("customerLoginAddr").value;
@@ -69,18 +94,6 @@ function bankLogin() {
             alert("不是银行账户，登录失败");
         }
     });
-}
-
-//注册一个商户
-function newMerchant() {
-  var register = document.getElementById("merchantRegister").value;
-
-  contractAddr.newMerchant(register, {from: account}).then(function() {
-    setStatus("注册商户完成！");
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("注册商户失败！");
-  });
 }
 
 //十六进制转化为字符串
