@@ -82,6 +82,25 @@ function customerLogin() {
   });
 }
 
+//商户登录
+function merchantLogin() {
+    var address = document.getElementById("merchantLoginAddr").value;
+    var password = document.getElementById("merchantLoginPwd").value;
+    contractAddr.getMerchantPassword(address, {from: account}).then(function (result) {
+        console.log(password);
+        console.log(hexCharCodeToStr(result));
+
+        if(password.localeCompare(hexCharCodeToStr(result)) == 0) {
+            console.log("登录成功");
+            //跳转到商户界面
+        }
+        else {
+            console.log("登录失败");
+            alert("密码错误，登录失败");
+        }
+    });
+}
+
 //银行管理员登录
 function bankLogin() {
     var address = document.getElementById("bankLoginAddr").value;
