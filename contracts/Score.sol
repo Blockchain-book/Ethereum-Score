@@ -42,6 +42,7 @@ contract Score is Utils {
 
     struct Merchant {
     	address merchantAddr; //商户address
+        bytes32 password; //商户密码
     	uint scoreAmount; //积分余额
     	bytes32[] goods; //发布的商品数组
     }
@@ -70,14 +71,14 @@ contract Score is Utils {
 		owner = msg.sender;
 	}
 
+    //返回合约调用者地址
     function getOwner() constant returns(address) {
         return owner;
     }
 
     //注册一个客户
 	event NewCustomer(address sender, bool isSuccess, string message);
-    function newCustomer(address _customerAddr, 
-    	string _password) {
+    function newCustomer(address _customerAddr, string _password) {
 
     	bool isSuccess;
     	string memory message;
@@ -90,13 +91,33 @@ contract Score is Utils {
     	    isSuccess = true;
     	    message = "注册成功";
         }
-        else 
-        {
+        else {
             isSuccess = false;
         	message = "该账户已经注册";
         }
         	
         NewCustomer(msg.sender, isSuccess, message);
+    }
+
+    //注册一个商户
+    event NewMerchant(address sender, bool isSuccess, string message);
+    function newMerchant(address _merchantAddr, string _password) {
+
+        bool isSuccess;
+        string memory message;
+        //判断是否已经注册
+        if(!isMerchantAlreadyRegister(_merchantAddr)) {
+            //还未注册
+            merchant[_merchantAddr].merchantAddr = _merchantAddr;
+            merchants.push(_merchantAddr);
+            isSuccess = true;
+            message = "注册成功";
+        }
+        else {
+            isSuccess = false;
+            message = "该账户已经注册";
+        }
+        NewMerchant(msg.sender, isSuccess, message);
     }
 
     //判断一个客户是否已经注册
@@ -109,12 +130,28 @@ contract Score is Utils {
     	return false;
     }
 
+    //判断一个商户是否已经注册
+    function isMerchantAlreadyRegister(address _merchantAddr)internal returns(bool) {
+        for(uint i = 0; i < merchants.length; i++) {
+            if(merchants[i] == _merchantAddr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //设置用户密码
     event SetCustomerPassword(address sender, string message);
-    function setCustomerPassword(address _customerAddr, 
-    	string _password) {
+    function setCustomerPassword(address _customerAddr, string _password) {
             customer[_customerAddr].password = stringToBytes32(_password);
             SetCustomerPassword(msg.sender, "设置密码成功");
+    }
+
+    //设置商户密码
+    event SetMerchantPassword(address sender, string message);
+    function setMerchantPassword(address _merchantAddr, string _password) {
+        merchant[_merchantAddr].password = stringToBytes32(_password);
+        SetMerchantPassword(msg.sender, "设置密码成功");
     }
 
     //查询用户密码
@@ -122,12 +159,12 @@ contract Score is Utils {
         return customer[_customerAddr].password;
     }
 
-    //注册一个商户
-    function newMerchant(address _merchantAddr) returns(bool) {
-    	merchant[_merchantAddr].merchantAddr = _merchantAddr;
-    	customers.push(_merchantAddr);
-    	return true;
+    //查询商户密码
+    function getMerchantPassword(address _merchantAddr)constant returns(bytes32) {
+        return merchant[_merchantAddr].password;
     }
+
+
 
     //银行发送积分给客户,只能被银行调用，且只能发送给客户
     event SendScoreToCustomer(address sender, string message);
