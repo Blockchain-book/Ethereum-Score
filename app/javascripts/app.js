@@ -16,7 +16,7 @@ function newCustomer() {
   var address = document.getElementById("customerAddress").value;
   var password = document.getElementById("customerPassword").value;
 
-  contractAddr.newCustomer(address, password, {from: account});
+  contractAddr.newCustomer(address, {from: account});
 
   var eventNewCustomer = contractAddr.NewCustomer();
   eventNewCustomer.watch(function(error, event) {
@@ -43,7 +43,7 @@ function newMerchant() {
     var address = document.getElementById("merchantAddress").value;
     var password = document.getElementById("merchantPassword").value;
 
-    contractAddr.newMerchant(address, password, {from: account});
+    contractAddr.newMerchant(address, {from: account});
 
     var eventNewMerchant = contractAddr.NewMerchant();
     eventNewMerchant.watch(function (error, event) {
