@@ -1,5 +1,3 @@
-var currentAccount; //当前客户的账户地址
-
 //根据客户address获取积分余额
 function getScoreWithCustomerAddr() {
   console.log(currentAccount);
@@ -15,9 +13,9 @@ function getCurrentCustomer() {
     alert(currentAccount);
 }
 
-//客户赠送积分给另外一个客户
-function transferScoreToAnother() {
-    var receivedAddr = document.getElementById("anotherCustomerAddr").value;
+//客户实现任意的积分转让
+function transferScoreToAnotherFromCustomer() {
+    var receivedAddr = document.getElementById("anotherAddress").value;
     var amount = parseInt(document.getElementById("scoreAmount").value);
     contractAddr.transferScoreToAnother(0, currentAccount, receivedAddr, amount, {from: account});
     var eventTransferScoreToAnother = contractAddr.TransferScoreToAnother();
@@ -27,6 +25,5 @@ function transferScoreToAnother() {
 
         eventTransferScoreToAnother.stopWatching();
     });
-
 }
 

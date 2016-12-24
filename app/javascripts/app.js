@@ -3,6 +3,8 @@ var accounts; //以太坊客户端的账户数组
 var account;
 var contractAddr; //合约地址
 
+var currentAccount; //当前客户的账户地址
+
 //更新状态
 function setStatus(message) {
   var status = document.getElementById("status");
@@ -93,6 +95,7 @@ function merchantLogin() {
         if(password.localeCompare(hexCharCodeToStr(result)) == 0) {
             console.log("登录成功");
             //跳转到商户界面
+            location.href="merchant.html?account=" + address;
         }
         else {
             console.log("登录失败");
@@ -115,6 +118,8 @@ function bankLogin() {
     });
 }
 
+
+
 //十六进制转化为字符串
 function hexCharCodeToStr(hexCharCodeStr) {
 　　var trimedStr = hexCharCodeStr.trim();
@@ -135,19 +140,6 @@ function hexCharCodeToStr(hexCharCodeStr) {
 }
 
 
-
-//商户赠送积分给另外一个商户
-function transferScoreToOtherMerchant() {
-  var senderAddr = document.getElementById("merchantSenderAddr").value;
-  var receivedAddr = document.getElementById("merchantSenderAddr").value;
-  var amount = parseInt(document.getElementById("merchantTransferAmount").value);
-  contractAddr.transferScoreToOtherMerchant(senderAddr, receivedAddr, amount, {from: account}).then(function() {
-    setStatus("赠送积分完成！");
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("赠送积分失败！");
-  });
-}
 
 //商户和银行进行积分清算
 function settleScoreWithBank() {

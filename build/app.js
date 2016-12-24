@@ -6604,9 +6604,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1482553040803,
+    "updated_at": 1482555658064,
     "links": {},
-    "address": "0x213bb4cc31139a16acb5fb48ba79a75e6b230140"
+    "address": "0x5386d05b845abe1d99e87aa1282c1fe3b0933e23"
   }
 };
 
@@ -7089,7 +7089,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     "abi": [],
     "unlinked_binary": "0x606060405260088060106000396000f36060604052600256",
     "events": {},
-    "updated_at": 1482553040808,
+    "updated_at": 1482555658069,
     "links": {}
   }
 };
@@ -44287,6 +44287,8 @@ var accounts; //以太坊客户端的账户数组
 var account;
 var contractAddr; //合约地址
 
+var currentAccount; //当前客户的账户地址
+
 //更新状态
 function setStatus(message) {
   var status = document.getElementById("status");
@@ -44377,6 +44379,7 @@ function merchantLogin() {
         if(password.localeCompare(hexCharCodeToStr(result)) == 0) {
             console.log("登录成功");
             //跳转到商户界面
+            location.href="merchant.html?account=" + address;
         }
         else {
             console.log("登录失败");
@@ -44399,6 +44402,8 @@ function bankLogin() {
     });
 }
 
+
+
 //十六进制转化为字符串
 function hexCharCodeToStr(hexCharCodeStr) {
 　　var trimedStr = hexCharCodeStr.trim();
@@ -44419,19 +44424,6 @@ function hexCharCodeToStr(hexCharCodeStr) {
 }
 
 
-
-//商户赠送积分给另外一个商户
-function transferScoreToOtherMerchant() {
-  var senderAddr = document.getElementById("merchantSenderAddr").value;
-  var receivedAddr = document.getElementById("merchantSenderAddr").value;
-  var amount = parseInt(document.getElementById("merchantTransferAmount").value);
-  contractAddr.transferScoreToOtherMerchant(senderAddr, receivedAddr, amount, {from: account}).then(function() {
-    setStatus("赠送积分完成！");
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("赠送积分失败！");
-  });
-}
 
 //商户和银行进行积分清算
 function settleScoreWithBank() {
@@ -44472,8 +44464,6 @@ window.onload = function() {
 
 
 
-var currentAccount; //当前客户的账户地址
-
 //根据客户address获取积分余额
 function getScoreWithCustomerAddr() {
   console.log(currentAccount);
@@ -44489,9 +44479,9 @@ function getCurrentCustomer() {
     alert(currentAccount);
 }
 
-//客户赠送积分给另外一个客户
-function transferScoreToAnother() {
-    var receivedAddr = document.getElementById("anotherCustomerAddr").value;
+//客户实现任意的积分转让
+function transferScoreToAnotherFromCustomer() {
+    var receivedAddr = document.getElementById("anotherAddress").value;
     var amount = parseInt(document.getElementById("scoreAmount").value);
     contractAddr.transferScoreToAnother(0, currentAccount, receivedAddr, amount, {from: account});
     var eventTransferScoreToAnother = contractAddr.TransferScoreToAnother();
@@ -44501,7 +44491,6 @@ function transferScoreToAnother() {
 
         eventTransferScoreToAnother.stopWatching();
     });
-
 }
 
 
@@ -44534,3 +44523,33 @@ function getIssuedScoreAmount() {
     });
 
 }
+
+//根据商户address获取积分余额
+function getScoreWithMerchantAddr() {
+    console.log(currentAccount);
+    contractAddr.getScoreWithMerchantAddr.call(currentAccount, {from: account}).then(function(value) {
+        alert("当前余额：" + value.valueOf());
+    }).catch(function(e) {
+        console.log(e);
+        alert("出现异常，查询余额失败！");
+    });
+}
+
+function getCurrentMerchant() {
+    alert(currentAccount);
+}
+
+//客户实现任意的积分转让
+function transferScoreToAnotherFromMerchant() {
+    var receivedAddr = document.getElementById("anotherAccountAddr").value;
+    var amount = parseInt(document.getElementById("scoreAmount").value);
+    contractAddr.transferScoreToAnother(1, currentAccount, receivedAddr, amount, {from: account});
+    var eventTransferScoreToAnother = contractAddr.TransferScoreToAnother();
+    eventTransferScoreToAnother.watch(function (error, event) {
+        console.log(event.args.message);
+        alert(event.args.message);
+
+        eventTransferScoreToAnother.stopWatching();
+    });
+}
+
