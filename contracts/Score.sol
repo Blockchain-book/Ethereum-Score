@@ -77,7 +77,7 @@ contract Score is Utils {
         return owner;
     }
 
-    //注册一个客户
+    //注册一个客户,拆分设置密码的方法，解决out of gas
 	event NewCustomer(address sender, bool isSuccess, string message);
     function newCustomer(address _customerAddr) {
 
@@ -283,10 +283,64 @@ contract Score is Utils {
 		return merchant[_merchantAddr].sellGoods;
 	}
 
+    //（1）用户用积分购买一件商品,拆分方法，解决out of gas
+    event BuyGood(address sender, bool isSuccess, string message);
+    function buyGood(address _customerAddr, string _goodId) {
+        //首先判断输入的商品Id是否存在
+        bytes32 tempId = stringToBytes32(_goodId);
+        if(isGoodAlreadyAdd(tempId)) {
+            //该件商品已经添加，可以购买
+            if(customer[_customerAddr].scoreAmount < good[tempId].price) {
+                BuyGood(msg.sender, false, "余额不足，购买商品失败");
+                return;
+            }
+            else {
+                //对这里的方法抽取      
+                BuyGood(msg.sender, true, "可以购买商品");
+                return;
+            }
+        }
+        else {
+            //没有这个Id的商品
+            BuyGood(msg.sender, false, "输入商品Id不存在，请确定后购买");
+            return;
+        }
+    }
+
+    //（2）对上面buyGood()方法的拆分
+    function buyGoodSuccess(address _customerAddr, string _goodId) {
+         bytes32 tempId = stringToBytes32(_goodId);
+         customer[_customerAddr].scoreAmount -= good[tempId].price;
+         merchant[good[tempId].belong].scoreAmount += good[tempId].price;
+         customer[_customerAddr].buyGoods.push(tempId);
+    }
+
 	//客户查找自己的商品数组
 	function getGoodsByCustomer(address _customerAddr)constant returns(bytes32[]) {
 		return customer[_customerAddr].buyGoods;
 	}
+
+    //首先判断输入的商品Id是否存在
+    function isGoodAlreadyAdd(bytes32 _goodId)internal returns(bool) {
+        for(uint i = 0; i < goods.length; i++) {
+            if(goods[i] == _goodId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     //根据商品Id查询商品详情
     /*
@@ -302,20 +356,12 @@ contract Score is Utils {
 
         return (0x0, 0);
     }
-
-    //用户用积分购买一件商品
-    function buyGood(address customerAddr,
-     bytes32 goodId) returns(bool) {
-        if(customer[customerAddr].scoreAmount < good[goodId].price) return false; //余额不足，购买失败
-
-        customer[customerAddr].scoreAmount -= good[goodId].price;
-        merchant[good[goodId].belong].scoreAmount += good[goodId].price;
-        customer[customerAddr].goods.push(goodId);
-        return true;
-    }
+    */
 
 
-     */
+
+
+
 
 
 
