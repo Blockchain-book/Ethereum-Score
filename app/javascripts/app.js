@@ -70,16 +70,24 @@ function customerLogin() {
 
     contractAddr.getCustomerPassword(address, {from: account}).then(function(result) {
     console.log(password);
-    console.log(hexCharCodeToStr(result));
+    console.log(hexCharCodeToStr(result[1]));
 
-    if(password.localeCompare(hexCharCodeToStr(result)) === 0) {
-      console.log("登录成功");
-      //跳转到用户界面
-      location.href="customer.html?account=" + address;
+    if(result[0]){
+        //查询密码成功
+        if(password.localeCompare(hexCharCodeToStr(result[1])) === 0) {
+            console.log("登录成功");
+            //跳转到用户界面
+            location.href="customer.html?account=" + address;
+        }
+        else {
+            console.log("密码错误，登录失败");
+            alert("密码错误，登录失败");
+        }
     }
-    else {
-      console.log("登录失败");
-      alert("密码错误，登录失败");
+    else{
+        //查询密码失败
+        console.log("该用户不存在，请确定账号后再登录！");
+        alert("该用户不存在，请确定账号后再登录！");
     }
   });
 }
@@ -90,16 +98,24 @@ function merchantLogin() {
     var password = document.getElementById("merchantLoginPwd").value;
     contractAddr.getMerchantPassword(address, {from: account}).then(function (result) {
         console.log(password);
-        console.log(hexCharCodeToStr(result));
+        console.log(hexCharCodeToStr(result[1]));
 
-        if(password.localeCompare(hexCharCodeToStr(result)) == 0) {
-            console.log("登录成功");
-            //跳转到商户界面
-            location.href="merchant.html?account=" + address;
+        if(result[0]){
+            //查询密码成功
+            if(password.localeCompare(hexCharCodeToStr(result[1])) == 0) {
+                console.log("登录成功");
+                //跳转到商户界面
+                location.href="merchant.html?account=" + address;
+            }
+            else {
+                console.log("密码错误,登录失败");
+                alert("密码错误，登录失败");
+            }
         }
-        else {
-            console.log("登录失败");
-            alert("密码错误，登录失败");
+        else{
+            //查询密码失败
+            console.log("该商户不存在，请确定账号后再登录！");
+            alert("该商户不存在，请确定账号后再登录！");
         }
     });
 }
