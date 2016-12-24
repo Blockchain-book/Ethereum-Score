@@ -78,7 +78,7 @@ contract Score is Utils {
 
     //注册一个客户
 	event NewCustomer(address sender, bool isSuccess, string message);
-    function newCustomer(address _customerAddr, string _password) {
+    function newCustomer(address _customerAddr) {
 
     	bool isSuccess;
     	string memory message;
@@ -101,7 +101,7 @@ contract Score is Utils {
 
     //注册一个商户
     event NewMerchant(address sender, bool isSuccess, string message);
-    function newMerchant(address _merchantAddr, string _password) {
+    function newMerchant(address _merchantAddr) {
 
         bool isSuccess;
         string memory message;
