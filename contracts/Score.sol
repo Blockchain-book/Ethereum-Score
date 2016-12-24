@@ -164,8 +164,6 @@ contract Score is Utils {
         return merchant[_merchantAddr].password;
     }
 
-
-
     //银行发送积分给客户,只能被银行调用，且只能发送给客户
     event SendScoreToCustomer(address sender, string message);
 	function sendScoreToCustomer(address _receiver, 
@@ -197,38 +195,59 @@ contract Score is Utils {
 		return merchant[merchantAddr].scoreAmount;
 	}
 
-	//客户之间转移积分
-    event TransferScoreToOtherCustomer(address sender, string message);
-	function transferScoreToOtherCustomer(address _sender, 
+	//两个账户转移积分，任意两个账户之间都可以转移，客户商户都调用该方法
+    //_senderType表示调用者类型，0表示客户，1表示商户
+    event TransferScoreToAnother(address sender, string message);
+	function transferScoreToAnother(uint _senderType, 
+        address _sender, 
 		address _receiver, 
-		uint _amount) {
+		uint _amount) returns(bool){
         string memory message;
-
-        if(customer[_sender].scoreAmount >= _amount) {
-            customer[_sender].scoreAmount -= _amount;
-            customer[_receiver].scoreAmount += _amount;
-            message = "积分转让成功！";
+        if(!isCustomerAlreadyRegister(_receiver) && !isMerchantAlreadyRegister(_receiver)) {
+            //目的账户不存在
+            TransferScoreToAnother(msg.sender, "目的账户不存在，请确认后再转移！");
+            return false;
         }
-        else {
-            message = "您的积分余额不足，转让失败！";
+        if(_senderType == 0) {
+            //客户转移
+            if(customer[_sender].scoreAmount >= _amount) {
+                customer[_sender].scoreAmount -= _amount;
+        
+                if(isCustomerAlreadyRegister(_receiver)) {
+                    //目的地址是客户
+                    customer[_receiver].scoreAmount += _amount;
+                }else {
+                    merchant[_receiver].scoreAmount += _amount;
+                }
+                TransferScoreToAnother(msg.sender, "积分转让成功！");
+                return true;
+          }else {
+                TransferScoreToAnother(msg.sender, "你的积分余额不足，转让失败！");
+                return false;
+          }
+        }else {
+            //商户转移
+            if(merchant[_sender].scoreAmount >= _amount) {
+                merchant[_sender].scoreAmount -= _amount;
+                if(isCustomerAlreadyRegister(_receiver)) {
+                    //目的地址是客户
+                    customer[_receiver].scoreAmount += _amount;
+                }else {
+                    merchant[_receiver].scoreAmount += _amount;
+                }
+                TransferScoreToAnother(msg.sender, "积分转让成功！");
+                return true;
+            }else {
+                 TransferScoreToAnother(msg.sender, "你的积分余额不足，转让失败！");
+                 return false;
+            }
         }
-        TransferScoreToOtherCustomer(msg.sender, message);
 	}
 
     //银行查找已经发行的积分总数
     function getIssuedScoreAmount()constant returns(uint) {
         return issuedScoreAmount;
     }
-
-	//商户之间转移积分
-	function transferScoreToOtherMerchant(address sender,
-		address receiver,
-		uint amount)returns(bool) {
-		if(merchant[sender].scoreAmount < amount) return false;
-		merchant[sender].scoreAmount -= amount;
-		merchant[receiver].scoreAmount += amount;
-		return true;
-	}
 
 	//商户和银行进行积分清算
 	function settleScoreWithBank(address merchantAddr, 
