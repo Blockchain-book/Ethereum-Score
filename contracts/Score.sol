@@ -172,21 +172,19 @@ contract Score is Utils {
     event SendScoreToCustomer(address sender, string message);
 	function sendScoreToCustomer(address _receiver, 
 		uint _amount)onlyOwner {
-        
-        bool isSuccess;
-        string memory message;
 
         if(isCustomerAlreadyRegister(_receiver)) {
             //已经注册
             issuedScoreAmount += _amount;
             customer[_receiver].scoreAmount += _amount;
-            message = "发行积分成功";
+            SendScoreToCustomer(msg.sender, "发行积分成功");
+            return;
         }
         else {
             //还没注册
-            message = "该账户未注册，发行积分失败";
+            SendScoreToCustomer(msg.sender, "该账户未注册，发行积分失败");
+            return;
         }
-        SendScoreToCustomer(msg.sender, message);
 	}
 
     //根据客户address查找余额
