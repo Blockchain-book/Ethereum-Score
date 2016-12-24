@@ -6656,9 +6656,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1482585870544,
+    "updated_at": 1482589429866,
     "links": {},
-    "address": "0x066588cf5e99ae3b2f959d7672bd592970a7ddf2"
+    "address": "0x8b02a32113768cb6db21d97e79c9aa18418cbdc9"
   }
 };
 
@@ -7141,7 +7141,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     "abi": [],
     "unlinked_binary": "0x606060405260088060106000396000f36060604052600256",
     "events": {},
-    "updated_at": 1482585870554,
+    "updated_at": 1482589429849,
     "links": {}
   }
 };
@@ -44470,29 +44470,6 @@ function bankLogin() {
     });
 }
 
-
-
-//十六进制转化为字符串
-function hexCharCodeToStr(hexCharCodeStr) {
-　　var trimedStr = hexCharCodeStr.trim();
-　　var rawStr = 
-　　trimedStr.substr(0,2).toLowerCase() === "0x" ? trimedStr.substr(2) : trimedStr;
-　　var len = rawStr.length;
-　　if(len % 2 !== 0) {
-　　　　alert("Illegal Format ASCII Code!");
-　　　　return "";
-　　}
-　　var curCharCode;
-　　var resultStr = [];
-　　for(var i = 0; i < len;i = i + 2) {
-　　　　curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
-　　　　resultStr.push(String.fromCharCode(curCharCode));
-　　}
-　　return resultStr.join("");
-}
-
-
-
 //商户和银行进行积分清算
 function settleScoreWithBank() {
   var settleAddr = document.getElementById("settleAddr").value;
@@ -44660,4 +44637,26 @@ function getGoodsByMerchant() {
             console.log(temp);
         }
     });
+}
+
+/**
+ * Created by chenyufeng on 12/24/16.
+ */
+//十六进制转化为字符串
+function hexCharCodeToStr(hexCharCodeStr) {
+    var trimedStr = hexCharCodeStr.trim();
+    var rawStr =
+        trimedStr.substr(0,2).toLowerCase() === "0x" ? trimedStr.substr(2) : trimedStr;
+    var len = rawStr.length;
+    if(len % 2 !== 0) {
+        alert("Illegal Format ASCII Code!");
+        return "";
+    }
+    var curCharCode;
+    var resultStr = [];
+    for(var i = 0; i < len;i = i + 2) {
+        curCharCode = parseInt(rawStr.substr(i, 2), 16); // ASCII Code Value
+        resultStr.push(String.fromCharCode(curCharCode));
+    }
+    return resultStr.join("");
 }
