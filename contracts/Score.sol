@@ -155,13 +155,25 @@ contract Score is Utils {
     }
 
     //查询用户密码
-    function getCustomerPassword(address _customerAddr)constant returns(bytes32) {
-        return customer[_customerAddr].password;
+    function getCustomerPassword(address _customerAddr)constant returns(bool, bytes32) {
+        //先判断该用户是否注册
+        if(isCustomerAlreadyRegister(_customerAddr)) {
+            return (true, customer[_customerAddr].password);
+        }
+        else {
+            return(false, "");
+        }
     }
 
     //查询商户密码
-    function getMerchantPassword(address _merchantAddr)constant returns(bytes32) {
-        return merchant[_merchantAddr].password;
+    function getMerchantPassword(address _merchantAddr)constant returns(bool, bytes32) {
+        //先判断该商户是否注册
+        if(isMerchantAlreadyRegister(_merchantAddr)) {
+            return (true, merchant[_merchantAddr].password);
+        }
+        else {
+            return(false, "");
+        }
     }
 
     //银行发送积分给客户,只能被银行调用，且只能发送给客户
