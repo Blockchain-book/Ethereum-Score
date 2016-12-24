@@ -16,16 +16,16 @@ function getCurrentCustomer() {
 }
 
 //客户赠送积分给另外一个客户
-function transferScoreToOtherCustomer() {
+function transferScoreToAnother() {
     var receivedAddr = document.getElementById("anotherCustomerAddr").value;
     var amount = parseInt(document.getElementById("scoreAmount").value);
-    contractAddr.transferScoreToOtherCustomer(currentAccount, receivedAddr, amount, {from: account});
-    var eventTransferScoreToOtherCustomer = contractAddr.TransferScoreToOtherCustomer();
-    eventTransferScoreToOtherCustomer.watch(function (error, event) {
+    contractAddr.transferScoreToAnother(0, currentAccount, receivedAddr, amount, {from: account});
+    var eventTransferScoreToAnother = contractAddr.TransferScoreToAnother();
+    eventTransferScoreToAnother.watch(function (error, event) {
         console.log(event.args.message);
         alert(event.args.message);
 
-        eventTransferScoreToOtherCustomer.stopWatching();
+        eventTransferScoreToAnother.stopWatching();
     });
 
 }
