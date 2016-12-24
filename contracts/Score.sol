@@ -252,7 +252,7 @@ contract Score is Utils {
         return issuedScoreAmount;
     }
 
-	//（1）商户添加一件商品
+	//（1）商户添加一件商品:（1）（2）（3）方法分拆解决out of gas
     event AddGood(address sender, string message);
 	function addGood(address _merchantAddr, string _goodId, uint _price) {
         bytes32 tempId = stringToBytes32(_goodId);
