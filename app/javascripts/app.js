@@ -11,7 +11,7 @@ function setStatus(message) {
   status.innerHTML = message;
 }
 
-//注册一个客户
+//注册一个客户：out of gas的解决
 function newCustomer() {
   var address = document.getElementById("customerAddress").value;
   var password = document.getElementById("customerPassword").value;
@@ -38,7 +38,7 @@ function newCustomer() {
   });
 }
 
-//注册一个商户
+//注册一个商户：out of gas的解决
 function newMerchant() {
     var address = document.getElementById("merchantAddress").value;
     var password = document.getElementById("merchantPassword").value;

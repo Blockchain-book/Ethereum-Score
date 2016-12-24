@@ -37,14 +37,14 @@ contract Score is Utils {
     	address customerAddr; //客户address
     	bytes32 password; //客户密码
     	uint scoreAmount; //积分余额
-    	bytes32[] goods; //购买的商品数组
+    	bytes32[] buyGoods; //购买的商品数组
     }
 
     struct Merchant {
     	address merchantAddr; //商户address
         bytes32 password; //商户密码
     	uint scoreAmount; //积分余额
-    	bytes32[] goods; //发布的商品数组
+    	bytes32[] sellGoods; //发布的商品数组
     }
 
     struct Good {
@@ -59,6 +59,7 @@ contract Score is Utils {
 
 	address[] customers; //已注册的客户数组
 	address[] merchants; //已注册的商户数组
+    bytes32[] goods; //已经上线的商品数组
 
     //增加权限控制，某些方法只能由合约的创建者调用
     modifier onlyOwner(){
@@ -251,67 +252,71 @@ contract Score is Utils {
         return issuedScoreAmount;
     }
 
-	//商户和银行进行积分清算
-	function settleScoreWithBank(address merchantAddr, 
-		uint amount)returns(bool) {
-		if(merchant[merchantAddr].scoreAmount < amount) return false;
-		merchant[merchantAddr].scoreAmount -= amount;
-		settledScoreAmount += amount;
-		return true;
+	//（1）商户添加一件商品
+    event AddGood(address sender, string message);
+	function addGood(address _merchantAddr, string _goodId, uint _price) {
+        bytes32 tempId = stringToBytes32(_goodId);
+
+		good[tempId].goodId = tempId;
+		good[tempId].price = _price;
+		good[tempId].belong = _merchantAddr;
+        AddGood(msg.sender, "创建商品成功");
+        return;
 	}
 
-	//商户添加一件商品
-	function addGood(address merchantAddr, 
-		bytes32 _goodId, 
-		uint _price) returns(bool) {
-		//判断商户是否已经注册
-		for(uint i = 0; i < merchants.length ; i++) {
-			if(customers[i] == merchantAddr) {
-				//已经注册
-				merchant[merchantAddr].goods.push(_goodId);
-				good[_goodId].goodId = _goodId;
-				good[_goodId].price = _price;
-				good[_goodId].belong = merchantAddr;
-			}
-		}
-		
-		return true;
-	}
+    //（2）商户添加一件商品
+    event PutGoodToArray(address sender, string message);
+    function putGoodToArray(string _goodId) {
+        goods.push(stringToBytes32(_goodId));  
+        PutGoodToArray(msg.sender, "添加到全局商品数组成功");
+    }
+
+    //（3）商户添加一件商品
+    event PutGoodToMerchant(address sender, string message);
+    function putGoodToMerchant(address _merchantAddr, string _goodId) {
+         merchant[_merchantAddr].sellGoods.push(stringToBytes32(_goodId)); 
+         PutGoodToMerchant(msg.sender, "添加到商户的商品数组成功");
+    }
 
 	//商户查找自己的商品数组
-	function getGoodsByMerchant(address merchantAddr)constant returns(bytes32[]) {
-		return merchant[merchantAddr].goods;
+	function getGoodsByMerchant(address _merchantAddr)constant returns(bytes32[]) {
+		return merchant[_merchantAddr].sellGoods;
 	}
 
 	//客户查找自己的商品数组
-	function getGoodsByCustomer(address customerAddr)constant returns(bytes32[]) {
-		return customer[customerAddr].goods;
+	function getGoodsByCustomer(address _customerAddr)constant returns(bytes32[]) {
+		return customer[_customerAddr].buyGoods;
 	}
 
-    //商户根据商品Id查询商品详情
-    function getGoodDetail(address merchantAddr, 
-    	bytes32 goodId)constant returns(bytes32, uint) {
-    	//商户只能查找自己发布的商品详情
-    	for(uint i = 0; i < merchant[merchantAddr].goods.length; i++) {
-    		if(merchant[merchantAddr].goods[i] == goodId) {
-    			//该商品属于该商户
-    			return(goodId, good[goodId].price);
-    		}
-    	}
+    //根据商品Id查询商品详情
+    /*
+        function getGoodDetail(address merchantAddr, 
+        bytes32 goodId)constant returns(bytes32, uint) {
+        //商户只能查找自己发布的商品详情
+        for(uint i = 0; i < merchant[merchantAddr].goods.length; i++) {
+            if(merchant[merchantAddr].goods[i] == goodId) {
+                //该商品属于该商户
+                return(goodId, good[goodId].price);
+            }
+        }
 
-    	return (0x0, 0);
+        return (0x0, 0);
     }
 
     //用户用积分购买一件商品
     function buyGood(address customerAddr,
      bytes32 goodId) returns(bool) {
-     	if(customer[customerAddr].scoreAmount < good[goodId].price) return false; //余额不足，购买失败
+        if(customer[customerAddr].scoreAmount < good[goodId].price) return false; //余额不足，购买失败
 
-     	customer[customerAddr].scoreAmount -= good[goodId].price;
-     	merchant[good[goodId].belong].scoreAmount += good[goodId].price;
-     	customer[customerAddr].goods.push(goodId);
-     	return true;
+        customer[customerAddr].scoreAmount -= good[goodId].price;
+        merchant[good[goodId].belong].scoreAmount += good[goodId].price;
+        customer[customerAddr].goods.push(goodId);
+        return true;
     }
+
+
+     */
+
 
 
 
