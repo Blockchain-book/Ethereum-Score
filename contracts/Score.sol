@@ -203,12 +203,12 @@ contract Score is Utils {
 	function transferScoreToAnother(uint _senderType, 
         address _sender, 
 		address _receiver, 
-		uint _amount) returns(bool){
+		uint _amount) {
         string memory message;
         if(!isCustomerAlreadyRegister(_receiver) && !isMerchantAlreadyRegister(_receiver)) {
             //目的账户不存在
             TransferScoreToAnother(msg.sender, "目的账户不存在，请确认后再转移！");
-            return false;
+            return;
         }
         if(_senderType == 0) {
             //客户转移
@@ -222,10 +222,10 @@ contract Score is Utils {
                     merchant[_receiver].scoreAmount += _amount;
                 }
                 TransferScoreToAnother(msg.sender, "积分转让成功！");
-                return true;
+                return;
           }else {
                 TransferScoreToAnother(msg.sender, "你的积分余额不足，转让失败！");
-                return false;
+                return;
           }
         }else {
             //商户转移
@@ -238,10 +238,10 @@ contract Score is Utils {
                     merchant[_receiver].scoreAmount += _amount;
                 }
                 TransferScoreToAnother(msg.sender, "积分转让成功！");
-                return true;
+                return;
             }else {
                  TransferScoreToAnother(msg.sender, "你的积分余额不足，转让失败！");
-                 return false;
+                 return;
             }
         }
 	}
