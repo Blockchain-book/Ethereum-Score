@@ -80,44 +80,36 @@ contract Score is Utils {
 	event NewCustomer(address sender, bool isSuccess, string message);
     function newCustomer(address _customerAddr) {
 
-    	bool isSuccess;
-    	string memory message;
-
         //判断是否已经注册
         if(!isCustomerAlreadyRegister(_customerAddr)) {
         	//还未注册
             customer[_customerAddr].customerAddr = _customerAddr;
     	    customers.push(_customerAddr);
-    	    isSuccess = true;
-    	    message = "注册成功";
+            NewCustomer(msg.sender, true, "注册成功");
+            return;
         }
         else {
-            isSuccess = false;
-        	message = "该账户已经注册";
+            NewCustomer(msg.sender, false, "该账户已经注册");
+            return;
         }
-        	
-        NewCustomer(msg.sender, isSuccess, message);
     }
 
     //注册一个商户
     event NewMerchant(address sender, bool isSuccess, string message);
     function newMerchant(address _merchantAddr) {
 
-        bool isSuccess;
-        string memory message;
         //判断是否已经注册
         if(!isMerchantAlreadyRegister(_merchantAddr)) {
             //还未注册
             merchant[_merchantAddr].merchantAddr = _merchantAddr;
             merchants.push(_merchantAddr);
-            isSuccess = true;
-            message = "注册成功";
+            NewMerchant(msg.sender, true, "注册成功");
+            return;
         }
         else {
-            isSuccess = false;
-            message = "该账户已经注册";
+            NewMerchant(msg.sender, false, "该账户已经注册");
+            return;
         }
-        NewMerchant(msg.sender, isSuccess, message);
     }
 
     //判断一个客户是否已经注册
