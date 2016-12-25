@@ -253,15 +253,22 @@ contract Score is Utils {
     }
 
 	//（1）商户添加一件商品:（1）（2）（3）方法分拆解决out of gas
-    event AddGood(address sender, string message);
+    event AddGood(address sender, bool isSuccess, string message);
 	function addGood(address _merchantAddr, string _goodId, uint _price) {
         bytes32 tempId = stringToBytes32(_goodId);
 
-		good[tempId].goodId = tempId;
-		good[tempId].price = _price;
-		good[tempId].belong = _merchantAddr;
-        AddGood(msg.sender, "创建商品成功");
-        return;
+        //首先判断该商品Id是否已经存在
+        if(!isGoodAlreadyAdd(tempId)) {
+            good[tempId].goodId = tempId;
+            good[tempId].price = _price;
+            good[tempId].belong = _merchantAddr;
+            AddGood(msg.sender, true, "创建商品成功");
+            return;
+        }
+        else {
+            AddGood(msg.sender, false, "该件商品已经添加，请确认后操作");
+            return;
+        }
 	}
 
     //（2）商户添加一件商品
