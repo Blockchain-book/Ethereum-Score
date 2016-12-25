@@ -34,13 +34,10 @@ function buyGood() {
     var eventBuyGood = contractAddr.BuyGood();
     eventBuyGood.watch(function (error, event) {
         console.log(event.args.message);
-        //alert(event.args.message);
+        alert(event.args.message);
 
         if(event.args.isSuccess){
             contractAddr.buyGoodSuccess(currentAccount, goodId, {from: account});
-        }
-        else{
-            alert(event.args.message);
         }
 
         eventBuyGood.stopWatching();
