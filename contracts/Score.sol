@@ -303,7 +303,7 @@ contract Score is Utils {
             }
             else {
                 //对这里的方法抽取      
-                BuyGood(msg.sender, true, "可以购买商品");
+                BuyGood(msg.sender, true, "购买商品成功");
                 return;
             }
         }
