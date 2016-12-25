@@ -37,20 +37,22 @@ function addGood() {
         console.log(event.args.message);
         alert(event.args.message);
 
-        //把商品加入到数组中
-        contractAddr.putGoodToArray(goodId, {from: account});
-        var eventPutGoodToArray = contractAddr.PutGoodToArray();
-        eventPutGoodToArray.watch(function (error, event) {
-            console.log(event.args.message);
-
-            contractAddr.putGoodToMerchant(currentAccount, goodId, {from:account});
-            var eventPutGoodToMerchant = contractAddr.PutGoodToMerchant();
-            eventPutGoodToMerchant.watch(function (error, event) {
+        if(event.args.isSuccess){
+            //把商品加入到数组中
+            contractAddr.putGoodToArray(goodId, {from: account});
+            var eventPutGoodToArray = contractAddr.PutGoodToArray();
+            eventPutGoodToArray.watch(function (error, event) {
                 console.log(event.args.message);
-                eventPutGoodToMerchant.stopWatching();
+
+                contractAddr.putGoodToMerchant(currentAccount, goodId, {from:account});
+                var eventPutGoodToMerchant = contractAddr.PutGoodToMerchant();
+                eventPutGoodToMerchant.watch(function (error, event) {
+                    console.log(event.args.message);
+                    eventPutGoodToMerchant.stopWatching();
+                });
+                eventPutGoodToArray.stopWatching();
             });
-            eventPutGoodToArray.stopWatching();
-        });
+        }
         eventAddGood.stopWatching();
     });
 }
