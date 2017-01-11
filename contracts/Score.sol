@@ -77,14 +77,16 @@ contract Score is Utils {
         return owner;
     }
 
-    //注册一个客户,拆分设置密码的方法，解决out of gas
+    //注册一个客户
 	event NewCustomer(address sender, bool isSuccess, string message);
-    function newCustomer(address _customerAddr) {
+    function newCustomer(address _customerAddr, 
+        string _password) {
 
         //判断是否已经注册
         if(!isCustomerAlreadyRegister(_customerAddr)) {
         	//还未注册
             customer[_customerAddr].customerAddr = _customerAddr;
+            customer[_customerAddr].password = stringToBytes32(_password);
     	    customers.push(_customerAddr);
             NewCustomer(msg.sender, true, "注册成功");
             return;
@@ -97,12 +99,14 @@ contract Score is Utils {
 
     //注册一个商户
     event NewMerchant(address sender, bool isSuccess, string message);
-    function newMerchant(address _merchantAddr) {
+    function newMerchant(address _merchantAddr, 
+        string _password) {
 
         //判断是否已经注册
         if(!isMerchantAlreadyRegister(_merchantAddr)) {
             //还未注册
             merchant[_merchantAddr].merchantAddr = _merchantAddr;
+            merchant[_merchantAddr].password = stringToBytes32(_password);
             merchants.push(_merchantAddr);
             NewMerchant(msg.sender, true, "注册成功");
             return;
@@ -131,20 +135,6 @@ contract Score is Utils {
             }
         }
         return false;
-    }
-
-    //设置用户密码
-    event SetCustomerPassword(address sender, string message);
-    function setCustomerPassword(address _customerAddr, string _password) {
-            customer[_customerAddr].password = stringToBytes32(_password);
-            SetCustomerPassword(msg.sender, "设置密码成功");
-    }
-
-    //设置商户密码
-    event SetMerchantPassword(address sender, string message);
-    function setMerchantPassword(address _merchantAddr, string _password) {
-        merchant[_merchantAddr].password = stringToBytes32(_password);
-        SetMerchantPassword(msg.sender, "设置密码成功");
     }
 
     //查询用户密码
@@ -252,7 +242,7 @@ contract Score is Utils {
         return issuedScoreAmount;
     }
 
-	//（1）商户添加一件商品:（1）（2）（3）方法分拆解决out of gas
+	//商户添加一件商品
     event AddGood(address sender, bool isSuccess, string message);
 	function addGood(address _merchantAddr, string _goodId, uint _price) {
         bytes32 tempId = stringToBytes32(_goodId);
@@ -262,6 +252,9 @@ contract Score is Utils {
             good[tempId].goodId = tempId;
             good[tempId].price = _price;
             good[tempId].belong = _merchantAddr;
+
+            goods.push(tempId);
+            merchant[_merchantAddr].sellGoods.push(tempId);
             AddGood(msg.sender, true, "创建商品成功");
             return;
         }
@@ -271,26 +264,12 @@ contract Score is Utils {
         }
 	}
 
-    //（2）商户添加一件商品
-    event PutGoodToArray(address sender, string message);
-    function putGoodToArray(string _goodId) {
-        goods.push(stringToBytes32(_goodId));  
-        PutGoodToArray(msg.sender, "添加到全局商品数组成功");
-    }
-
-    //（3）商户添加一件商品
-    event PutGoodToMerchant(address sender, string message);
-    function putGoodToMerchant(address _merchantAddr, string _goodId) {
-         merchant[_merchantAddr].sellGoods.push(stringToBytes32(_goodId)); 
-         PutGoodToMerchant(msg.sender, "添加到商户的商品数组成功");
-    }
-
 	//商户查找自己的商品数组
 	function getGoodsByMerchant(address _merchantAddr)constant returns(bytes32[]) {
 		return merchant[_merchantAddr].sellGoods;
 	}
 
-    //（1）用户用积分购买一件商品,拆分方法，解决out of gas
+    //用户用积分购买一件商品
     event BuyGood(address sender, bool isSuccess, string message);
     function buyGood(address _customerAddr, string _goodId) {
         //首先判断输入的商品Id是否存在
@@ -302,7 +281,10 @@ contract Score is Utils {
                 return;
             }
             else {
-                //对这里的方法抽取      
+                //对这里的方法抽取 
+                customer[_customerAddr].scoreAmount -= good[tempId].price;
+                merchant[good[tempId].belong].scoreAmount += good[tempId].price;
+                customer[_customerAddr].buyGoods.push(tempId);     
                 BuyGood(msg.sender, true, "购买商品成功");
                 return;
             }
@@ -312,14 +294,6 @@ contract Score is Utils {
             BuyGood(msg.sender, false, "输入商品Id不存在，请确定后购买");
             return;
         }
-    }
-
-    //（2）对上面buyGood()方法的拆分
-    function buyGoodSuccess(address _customerAddr, string _goodId) {
-         bytes32 tempId = stringToBytes32(_goodId);
-         customer[_customerAddr].scoreAmount -= good[tempId].price;
-         merchant[good[tempId].belong].scoreAmount += good[tempId].price;
-         customer[_customerAddr].buyGoods.push(tempId);
     }
 
 	//客户查找自己的商品数组
@@ -336,43 +310,6 @@ contract Score is Utils {
         }
         return false;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //根据商品Id查询商品详情
-    /*
-        function getGoodDetail(address merchantAddr, 
-        bytes32 goodId)constant returns(bytes32, uint) {
-        //商户只能查找自己发布的商品详情
-        for(uint i = 0; i < merchant[merchantAddr].goods.length; i++) {
-            if(merchant[merchantAddr].goods[i] == goodId) {
-                //该商品属于该商户
-                return(goodId, good[goodId].price);
-            }
-        }
-
-        return (0x0, 0);
-    }
-    */
-
-
-
-
-
-
-
-
-
 }
 
 
