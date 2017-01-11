@@ -6637,9 +6637,9 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1484102044922,
+    "updated_at": 1484102671092,
     "links": {},
-    "address": "0xeac528afee182655f41aa15db658d36e6b5c07cc"
+    "address": "0x455f2e71e480c9816fe63086c7bc9b2e0324e3e2"
   }
 };
 
@@ -7122,7 +7122,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     "abi": [],
     "unlinked_binary": "0x606060405260088060106000396000f36060604052600256",
     "events": {},
-    "updated_at": 1484102044907,
+    "updated_at": 1484102671097,
     "links": {}
   }
 };
@@ -44328,19 +44328,19 @@ function setStatus(message) {
   status.innerHTML = message;
 }
 
-//注册一个客户：out of gas的解决
+//注册一个客户：需要制定gas，默认gas值会出现OOG
 function newCustomer() {
-  var address = document.getElementById("customerAddress").value;
-  var password = document.getElementById("customerPassword").value;
+    var address = document.getElementById("customerAddress").value;
+    var password = document.getElementById("customerPassword").value;
 
-  contractAddr.newCustomer(address, password, {from: account, gas: 1000000});
-
-  var eventNewCustomer = contractAddr.NewCustomer();
-  eventNewCustomer.watch(function(error, event) {
-    console.log(event.args.message);
-    alert(event.args.message);
-    eventNewCustomer.stopWatching(); //一定要停止监听，否则有bug；  
-  });
+    contractAddr.newCustomer(address, password, {from: account, gas: 1000000}).then(function () {
+        var eventNewCustomer = contractAddr.NewCustomer();
+        eventNewCustomer.watch(function (error, event) {
+            console.log(event.args.message);
+            alert(event.args.message);
+            eventNewCustomer.stopWatching(); //一定要停止监听，否则有bug；
+        });
+    });
 }
 
 //注册一个商户：out of gas的解决
