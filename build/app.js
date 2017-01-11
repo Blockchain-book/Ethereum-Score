@@ -44587,33 +44587,17 @@ function transferScoreToAnotherFromMerchant() {
     });
 }
 
-//商户增加一件商品：out of gas的解决
+//商户增加一件商品：默认gas会OOG
 function addGood() {
     var goodId = document.getElementById("goodId").value;
     var goodPrice = parseInt(document.getElementById("goodPrice").value);
-    contractAddr.addGood(currentAccount, goodId, goodPrice, {from: account});
-    var eventAddGood = contractAddr.AddGood();
-    eventAddGood.watch(function (error, event) {
-        console.log(event.args.message);
-        alert(event.args.message);
-
-        if(event.args.isSuccess){
-            //把商品加入到数组中
-            contractAddr.putGoodToArray(goodId, {from: account});
-            var eventPutGoodToArray = contractAddr.PutGoodToArray();
-            eventPutGoodToArray.watch(function (error, event) {
-                console.log(event.args.message);
-
-                contractAddr.putGoodToMerchant(currentAccount, goodId, {from:account});
-                var eventPutGoodToMerchant = contractAddr.PutGoodToMerchant();
-                eventPutGoodToMerchant.watch(function (error, event) {
-                    console.log(event.args.message);
-                    eventPutGoodToMerchant.stopWatching();
-                });
-                eventPutGoodToArray.stopWatching();
-            });
-        }
-        eventAddGood.stopWatching();
+    contractAddr.addGood(currentAccount, goodId, goodPrice, {from: account, gas: 2000000}).then(function () {
+        var eventAddGood = contractAddr.AddGood();
+        eventAddGood.watch(function (error, event) {
+            console.log(event.args.message);
+            alert(event.args.message);
+            eventAddGood.stopWatching();
+        });
     });
 }
 
