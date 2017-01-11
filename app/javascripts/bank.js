@@ -24,5 +24,10 @@ function getIssuedScoreAmount() {
     contractAddr.getIssuedScoreAmount({from: account}).then(function (result) {
         alert("已发行的积分总数为：" + result);
     });
+}
 
+function getSettledScoreAmount() {
+    contractAddr.getSettledScoreAmount({from: account}).then(function (result) {
+       alert("已清算的积分总数为：" + result);
+    });
 }
