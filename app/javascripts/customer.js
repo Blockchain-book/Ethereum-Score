@@ -30,17 +30,14 @@ function transferScoreToAnotherFromCustomer() {
 //客户购买商品
 function buyGood() {
     var goodId = document.getElementById("goodId").value;
-    contractAddr.buyGood(currentAccount, goodId, {from: account});
-    var eventBuyGood = contractAddr.BuyGood();
-    eventBuyGood.watch(function (error, event) {
-        console.log(event.args.message);
-        alert(event.args.message);
+    contractAddr.buyGood(currentAccount, goodId, {from: account, gas: 1000000}).then(function () {
+        var eventBuyGood = contractAddr.BuyGood();
+        eventBuyGood.watch(function (error, event) {
+            console.log(event.args.message);
+            alert(event.args.message);
 
-        if(event.args.isSuccess){
-            contractAddr.buyGoodSuccess(currentAccount, goodId, {from: account});
-        }
-
-        eventBuyGood.stopWatching();
+            eventBuyGood.stopWatching();
+        });
     });
 }
 
