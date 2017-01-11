@@ -242,6 +242,11 @@ contract Score is Utils {
         return issuedScoreAmount;
     }
 
+    //银行查找已经清算的积分总数
+    function getSettledScoreAmount()constant returns(uint) {
+        return settledScoreAmount;
+    }
+
 	//商户添加一件商品
     event AddGood(address sender, bool isSuccess, string message);
 	function addGood(address _merchantAddr, string _goodId, uint _price) {
