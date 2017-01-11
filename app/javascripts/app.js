@@ -11,19 +11,19 @@ function setStatus(message) {
   status.innerHTML = message;
 }
 
-//注册一个客户：out of gas的解决
+//注册一个客户：需要制定gas，默认gas值会出现OOG
 function newCustomer() {
-  var address = document.getElementById("customerAddress").value;
-  var password = document.getElementById("customerPassword").value;
+    var address = document.getElementById("customerAddress").value;
+    var password = document.getElementById("customerPassword").value;
 
-  contractAddr.newCustomer(address, password, {from: account, gas: 1000000});
-
-  var eventNewCustomer = contractAddr.NewCustomer();
-  eventNewCustomer.watch(function(error, event) {
-    console.log(event.args.message);
-    alert(event.args.message);
-    eventNewCustomer.stopWatching(); //一定要停止监听，否则有bug；  
-  });
+    contractAddr.newCustomer(address, password, {from: account, gas: 1000000}).then(function () {
+        var eventNewCustomer = contractAddr.NewCustomer();
+        eventNewCustomer.watch(function (error, event) {
+            console.log(event.args.message);
+            alert(event.args.message);
+            eventNewCustomer.stopWatching(); //一定要停止监听，否则有bug；
+        });
+    });
 }
 
 //注册一个商户：out of gas的解决
