@@ -11,7 +11,7 @@ function setStatus(message) {
   status.innerHTML = message;
 }
 
-//注册一个客户：需要制定gas，默认gas值会出现OOG
+//注册一个客户：需要指定gas，默认gas值会出现OOG
 function newCustomer() {
     var address = document.getElementById("customerAddress").value;
     var password = document.getElementById("customerPassword").value;
@@ -26,28 +26,18 @@ function newCustomer() {
     });
 }
 
-//注册一个商户：out of gas的解决
+//注册一个商户：需要指定gas，默认gas值会出现OOG
 function newMerchant() {
     var address = document.getElementById("merchantAddress").value;
     var password = document.getElementById("merchantPassword").value;
 
-    contractAddr.newMerchant(address, {from: account});
-
-    var eventNewMerchant = contractAddr.NewMerchant();
-    eventNewMerchant.watch(function (error, event) {
-        console.log(event.args.message);
-        alert(event.args.message);
-
-        if(event.args.isSuccess) {
-            contractAddr.setMerchantPassword(address, password, {from: account});
-
-            var eventSetMerchantPassword = contractAddr.SetMerchantPassword();
-            eventSetMerchantPassword.watch(function (error, event) {
-                console.log(event.args.message);
-                eventSetMerchantPassword.stopWatching();
-            });
-        }
-        eventNewMerchant.stopWatching();
+    contractAddr.newMerchant(address, password, {from: account, gas: 1000000}).then(function () {
+        var eventNewMerchant = contractAddr.NewMerchant();
+        eventNewMerchant.watch(function (error, event) {
+            console.log(event.args.message);
+            alert(event.args.message);
+            eventNewMerchant.stopWatching();
+        });
     });
 }
 
