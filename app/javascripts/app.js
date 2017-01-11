@@ -16,24 +16,12 @@ function newCustomer() {
   var address = document.getElementById("customerAddress").value;
   var password = document.getElementById("customerPassword").value;
 
-  contractAddr.newCustomer(address, {from: account});
+  contractAddr.newCustomer(address, password, {from: account, gas: 1000000});
 
   var eventNewCustomer = contractAddr.NewCustomer();
   eventNewCustomer.watch(function(error, event) {
     console.log(event.args.message);
     alert(event.args.message);
-    
-    if(event.args.isSuccess) {
-      //注册成功，设置密码在两个方法中实现，因为在一个方法中实现会出现out of gas
-      contractAddr.setCustomerPassword(address, password, {from: account});
-
-      var eventSetCustomerPassword = contractAddr.SetCustomerPassword();
-      eventSetCustomerPassword.watch(function(error, event) {
-      console.log(event.args.message);
-      
-      eventSetCustomerPassword.stopWatching();
-     });
-    }
     eventNewCustomer.stopWatching(); //一定要停止监听，否则有bug；  
   });
 }
