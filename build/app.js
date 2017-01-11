@@ -44303,7 +44303,7 @@ window.addEventListener('load', function() {
 
                                                                 
 
-  [Score,Utils].forEach(function(contract) {         
+  [Utils,Score].forEach(function(contract) {         
 
     contract.setProvider(window.web3.currentProvider);          
 
