@@ -53,3 +53,19 @@ function getGoodsByMerchant() {
         }
     });
 }
+
+//商户和银行进行积分清算
+function settleScoreWithBank() {
+    var settleAmount = parseInt(document.getElementById("settleAmount").value);
+    contractAddr.settleScoreWithBank(currentAccount, settleAmount, {from: account}).then(function() {
+        var eventSettleScoreWithBank = contractAddr.SettleScoreWithBank();
+        eventSettleScoreWithBank.watch(function (error, event) {
+            console.log(event.args.message);
+            alert(event.args.message);
+            eventSettleScoreWithBank.stopWatching();
+        });
+    }).catch(function(e) {
+        console.log(e);
+        setStatus("清算积分失败");
+    });
+}

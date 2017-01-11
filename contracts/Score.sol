@@ -310,6 +310,21 @@ contract Score is Utils {
         }
         return false;
     }
+
+    //商户和银行清算积分
+    event SettleScoreWithBank(address sender, string message);
+    function settleScoreWithBank(address _merchantAddr, uint _amount) {
+        if(merchant[_merchantAddr].scoreAmount >= _amount) {
+            merchant[_merchantAddr].scoreAmount -= _amount;
+            settledScoreAmount += _amount;
+            SettleScoreWithBank(msg.sender, "积分清算成功");
+            return;
+        }
+        else {
+            SettleScoreWithBank(msg.sender, "您的积分余额不足，清算失败");
+            return;
+        }
+    }
 }
 
 

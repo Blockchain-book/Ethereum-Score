@@ -112,19 +112,6 @@ function bankLogin() {
     });
 }
 
-//商户和银行进行积分清算
-function settleScoreWithBank() {
-  var settleAddr = document.getElementById("settleAddr").value;
-  var settleAmount = parseInt(document.getElementById("settleAmount").value);
-  contractAddr.settleScoreWithBank(settleAmount, settleAmount, {from: account}).then(function() {
-    setStatus("清算积分完成！");
-
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("清算积分失败");
-  });
-}
-
 window.onload = function() {
 
   web3.eth.getAccounts(function(err, accs) {
